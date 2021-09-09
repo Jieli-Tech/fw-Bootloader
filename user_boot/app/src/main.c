@@ -49,7 +49,6 @@ int main(void)
     log_info("\n******************  user uboot  *****************\n\n");
 
     irq_init();
-
     arch_init();
 
     u8 err = jlfs_mount();//非0表示fs初始化失败，可能是升级未完成
