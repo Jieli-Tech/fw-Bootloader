@@ -1,0 +1,168 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "all",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat all"
+            },
+            "command": "make all -j`nproc`",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+        ,{
+            "label": "clean",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean"
+            },
+            "command": "make clean -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "bd19_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat bd19_uboot"
+            },
+            "command": "make bd19_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "sh54_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat sh54_uboot"
+            },
+            "command": "make sh54_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "br34_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat br34_uboot"
+            },
+            "command": "make br34_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "br23_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat br23_uboot"
+            },
+            "command": "make br23_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "br30_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat br30_uboot"
+            },
+            "command": "make br30_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "br25_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat br25_uboot"
+            },
+            "command": "make br25_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "sh55_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat sh55_uboot"
+            },
+            "command": "make sh55_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_bd19_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_bd19_uboot"
+            },
+            "command": "make clean_bd19_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_sh54_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_sh54_uboot"
+            },
+            "command": "make clean_sh54_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_br34_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_br34_uboot"
+            },
+            "command": "make clean_br34_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_br23_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_br23_uboot"
+            },
+            "command": "make clean_br23_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_br30_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_br30_uboot"
+            },
+            "command": "make clean_br30_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_br25_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_br25_uboot"
+            },
+            "command": "make clean_br25_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+        ,{
+            "label": "clean_sh55_uboot",
+            "type": "shell",
+            "windows": {
+                "command": ".vscode/winmk.bat clean_sh55_uboot"
+            },
+            "command": "make clean_sh55_uboot -j`nproc`",
+            "problemMatcher": [],
+            "group": "build"
+        }
+    ]
+}

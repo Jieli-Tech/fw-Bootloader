@@ -8,7 +8,7 @@ static u32 *used_tx_io_omap = NULL;
 
 void putchar(char a)
 {
-#ifdef APP_DEBUG
+#if (APP_DEBUG)
     if (JL_UART1->CON0 & BIT(0)) {
         JL_UART1->BUF = a;
         __asm__ volatile("csync");
@@ -23,7 +23,7 @@ void uart_init(const char *tx_io, u32 baud)
     //PLL48M
     JL_CLOCK->CLK_CON1 &= ~BIT(10);
     JL_CLOCK->CLK_CON1 &= ~BIT(11);
-#ifdef APP_DEBUG
+#if (APP_DEBUG)
     used_tx_io = get_gpio(tx_io);
     if ((baud) && (used_tx_io < IO_PORT_MAX)) {
         used_tx_io_omap = gpio2crossbar_outreg(used_tx_io);
@@ -43,7 +43,7 @@ void uart_init(const char *tx_io, u32 baud)
 
 void uart_close(void)
 {
-#ifdef APP_DEBUG
+#if (APP_DEBUG)
     if (JL_UART1->CON0 & BIT(0)) {
         JL_UART1->CON0 = 0;
         JL_UART1->CON1 = 0;
@@ -134,3 +134,7 @@ void ut_device_mode(const char *ut_tx, const char *ut_rx, u32 baud)
     }
 }
 
+void ut_devic_mode_close(void)
+{
+    JL_UART0->CON0 = BIT(13) | BIT(12) | BIT(10);
+}

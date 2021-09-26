@@ -1,0 +1,198 @@
+{
+    "configurations": [
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_bd19",
+                "ENTRY_ADDR=0x2000",
+                "__USE_MASK_API__",
+                "__LOADER_CRC_ENC",
+                "__MASK_FS_V2",
+                "__MASK_LZ4",
+                "__UPDATE_NEED_SFC",
+                "__HID_UART_MODE_SEL=1",
+                "__Q32S__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/bd19",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/q32s-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "bd19_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_sh54",
+                "ENTRY_ADDR=0x1000",
+                "__USE_MASK_API__",
+                "__HID_UART_MODE_SEL=1",
+                "__USE_MASK_PRINTF",
+                "__PI32__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/sh54",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/include/libc"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "sh54_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_br34",
+                "ENTRY_ADDR=0x2000",
+                "__USE_MASK_API__",
+                "__MASK_LZ4",
+                "__USE_MASK_PRINTF",
+                "__HID_UART_MODE_SEL=1",
+                "__PI32V2__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/br34",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/pi32v2-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "br34_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_br23",
+                "ENTRY_ADDR=0x4000",
+                "__USE_MASK_API__",
+                "__HID_UART_MODE_SEL=1",
+                "__PI32V2__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/br23",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/pi32v2-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "br23_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_br30",
+                "ENTRY_ADDR=0x2000",
+                "__USE_MASK_API__",
+                "__MASK_LZ4",
+                "__USE_MASK_PRINTF",
+                "__HID_UART_MODE_SEL=1",
+                "__PI32V2__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/br30",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/pi32v2-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "br30_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_br25",
+                "ENTRY_ADDR=0x12000",
+                "__USE_MASK_API__",
+                "__MASK_LZ4",
+                "__USE_MASK_PRINTF",
+                "__HID_UART_MODE_SEL=0",
+                "__PI32V2__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/br25",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/pi32v2-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "br25_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_sh55",
+                "ENTRY_ADDR=0",
+                "__USE_MASK_API__",
+                "__HID_UART_MODE_SEL=1",
+                "__PI32__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/sh55",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/include/libc"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "sh55_uboot"
+        }
+    ],
+    "version": 4
+}

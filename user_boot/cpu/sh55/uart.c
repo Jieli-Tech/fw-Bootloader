@@ -8,7 +8,7 @@ static u8 used_tx_io;
 
 void putchar(char a)
 {
-#ifdef APP_DEBUG
+#if (APP_DEBUG)
     if (JL_UT0->CON & BIT(0)) {
         JL_UT0->BUF = a;
         __asm__ volatile("csync");
@@ -26,7 +26,7 @@ void uart_init(const char *tx_io, u32 baud)
     JL_IOMC->IOMC0 &= ~(BIT(5) | BIT(6));
     JL_IOMC->IOMC0 &= ~BIT(4);
 
-#ifdef APP_DEBUG
+#if (APP_DEBUG)
     used_tx_io = get_gpio(tx_io);
     if ((baud) && (used_tx_io < IO_PORT_MAX)) {
         if (used_tx_io < IO_GROUP_NUM) {
@@ -42,7 +42,7 @@ void uart_init(const char *tx_io, u32 baud)
 
 void uart_close(void)
 {
-#ifdef APP_DEBUG
+#if (APP_DEBUG)
     if (JL_UT0->CON & BIT(0)) {
         JL_UT0->CON = 0;
         gpio_set_pull_up(used_tx_io, 0);
@@ -125,3 +125,7 @@ void ut_device_mode(const char *ut_tx, const char *ut_rx, u32 baud)
     }
 }
 
+void ut_devic_mode_close(void)
+{
+    JL_UT1->CON0 = BIT(13) | BIT(12) | BIT(10);
+}

@@ -88,6 +88,7 @@ extern u8 *get_ut_up_buf_p(void);
 extern u32 get_ut_up_rxlen(void);
 extern void ut_up_tx_data(u8 *buf, u32 len);
 extern void ut_device_mode(const char *ut_tx, const char *ut_rx, u32 baud);
+extern void ut_devic_mode_close(void);
 extern u16 jlfs_get_app_dir_head_datacrc(void);
 extern u32 jlfs_get_flash_eoffset_size(void);
 
@@ -97,6 +98,12 @@ JL_SECTOR_COMMAND_ITEM *g_ops;
 
 volatile int new_data;
 static u32 flash_alignsize;
+
+__attribute__((weak))
+void usb_disable_for_ota()
+{
+
+}
 
 void set_new_data_flag(int flag)
 {
@@ -296,6 +303,9 @@ void upgrade_loop()
             break;
         case JL_SU_CMD_REBOOT:
             log_info("reboot\n");
+            ut_devic_mode_close();
+            usb_disable_for_ota();
+
             /* chip_reset(); */
             return;
         }

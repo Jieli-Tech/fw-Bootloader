@@ -57,6 +57,7 @@
   mdelay = ABSOLUTE(0xc1220);
   udelay = ABSOLUTE(0xc1114);
   boot_arg_list = ABSOLUTE(0x7ed0);
+  efuse_page0 = ABSOLUTE(0x7edc);
   _IRQ_MEM_ADDR = ABSOLUTE(0x7f00);
   _MASK_MEM_BEGIN = ABSOLUTE(0x7eb0);
   _MASK_MEM_SIZE = ABSOLUTE(0x48);
