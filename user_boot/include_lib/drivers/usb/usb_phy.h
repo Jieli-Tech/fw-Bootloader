@@ -109,6 +109,7 @@
 #define TXCSRP_SendStall         0x10
 #define TXCSRP_SentStall         0x20
 #define TXCSRP_ClrDataTog        0x40
+#define TXCSRP_IncompTx          0x80
 #define TXCSRP_DIR               (BIT(13))
 #define TXCSRP_ISOCHRONOUS       (BIT(14))
 

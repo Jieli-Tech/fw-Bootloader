@@ -3,23 +3,6 @@
 
 #include "common.h"
 
-#ifdef __JLFS_DEBUG
-#define JLFS_DEBUG    1
-#else
-#define JLFS_DEBUG    0
-#endif
-
-#if JLFS_DEBUG
-#define jlfs_puts			puts
-#define jlfs_printf			printf
-#define jlfs_put_buf		put_buf
-#define jlfs_printf_buf		printf_buf
-#else
-#define jlfs_puts(a)
-#define jlfs_printf(...)
-#define jlfs_put_buf(a,b)
-#define jlfs_printf_buf(a,b)
-#endif
 
 typedef struct {
     u32 addr;   //flash里的绝对地址
@@ -43,6 +26,7 @@ u32 jlfs_write(JLFS_FILE *file, u8 *buf, u32 len);
 void jlfs_fseek(JLFS_FILE *file, u32 offset);
 void jlfs_get_pid_vid(u8 *pid, u8 *vid);
 
+void jlfs_get_bt_mac(u8 *mac);
 
 #endif
 

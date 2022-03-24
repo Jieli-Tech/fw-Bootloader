@@ -4,10 +4,11 @@
 
 MEMORY
 {
-	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 32K 
+	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 32K
 }
 
 ENTRY(_start);
+EXTERN(lib_uboot_version);
 
 SECTIONS
 {

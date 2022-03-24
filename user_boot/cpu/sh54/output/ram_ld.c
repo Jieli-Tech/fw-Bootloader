@@ -8,6 +8,7 @@ MEMORY
 }
 
 ENTRY(_start);
+EXTERN(lib_uboot_version);
 
 SECTIONS
 {

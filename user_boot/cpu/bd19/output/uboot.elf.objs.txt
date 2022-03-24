@@ -1,0 +1,1 @@
+obj/Release/app/src/descriptor.o obj/Release/app/src/hid.o obj/Release/app/src/log_config.o obj/Release/app/src/main.o obj/Release/app/src/user.o obj/Release/cpu/bd19/delay.o obj/Release/cpu/bd19/uart.o

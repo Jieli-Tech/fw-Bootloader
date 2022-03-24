@@ -38,3 +38,4 @@
 
   HWI_Install = ABSOLUTE(0x111164);
   flash_poweron = ABSOLUTE(0x11129c);
+  nvram_list = ABSOLUTE(0x10800);

@@ -3,18 +3,22 @@
 #include "irq.h"
 #include "printf.h"
 
+#define LOG_TAG_CONST       UPGRADE
+#define LOG_TAG             "[uart]"
+#define LOG_ERROR_ENABLE
+#define LOG_DEBUG_ENABLE
+#define LOG_INFO_ENABLE
+#include "log.h"
 static u8 used_tx_io;
 
 void putchar(char a)
 {
-#if (APP_DEBUG)
     if (JL_UART1->CON0 & BIT(0)) {
         JL_UART1->BUF = a;
         __asm__ volatile("csync");
         while ((JL_UART1->CON0 & BIT(15)) == 0);
         JL_UART1->CON0 |= BIT(13);
     }
-#endif
 }
 
 void uart_init(const char *tx_io, u32 baud)
@@ -23,19 +27,16 @@ void uart_init(const char *tx_io, u32 baud)
     JL_CLOCK->CLK_CON2 &= ~BIT(10);
     JL_CLOCK->CLK_CON2 &= ~BIT(11);
     JL_IOMAP->CON3 &= ~(0xfff);
-#if (APP_DEBUG)
     used_tx_io = get_gpio(tx_io);
     if ((baud) && (used_tx_io < IO_PORT_MAX)) {
         gpio_output_channle(used_tx_io, CH1_UT1_TX);
         JL_UART1->BAUD = 48000000 / baud / 4 - 1;
         JL_UART1->CON0 = BIT(13) | BIT(12) | BIT(10) | BIT(0);
     }
-#endif
 }
 
 void uart_close(void)
 {
-#if (APP_DEBUG)
     if (JL_UART1->CON0 & BIT(0)) {
         JL_UART1->CON0 = 0;
         JL_UART1->CON1 = 0;
@@ -44,7 +45,6 @@ void uart_close(void)
         gpio_set_die(used_tx_io, 0);
         gpio_set_direction(used_tx_io, 1);
     }
-#endif
 }
 
 

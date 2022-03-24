@@ -4,7 +4,13 @@
 #include "usb/usb_stack.h"
 #include "usb/hid.h"
 #include "usb/usb_config.h"
-#define     usb_log_e   log_info
+
+#define LOG_TAG_CONST       UPGRADE
+#define LOG_TAG             "[hid]"
+#define LOG_ERROR_ENABLE
+#define LOG_DEBUG_ENABLE
+#define LOG_INFO_ENABLE
+#include "log.h"
 
 static const u8 sHIDDescriptor[] = {
 //HID
@@ -131,7 +137,7 @@ void hid_release(const usb_dev usb_id)
 static void hid_reset(struct usb_device_t *usb_device, u32 itf)
 {
     const usb_dev usb_id = usb_device2id(usb_device);
-    usb_log_e("%s", __func__);
+    log_error("%s", __func__);
 #if USB_ROOT2
     usb_disable_ep(usb_id, HID_EP_IN);
 #else
@@ -242,7 +248,7 @@ static u32 hid_itf_hander(struct usb_device_t *usb_device, struct usb_ctrlreques
 
 u32 hid_desc_config(const usb_dev usb_id, u8 *ptr, u32 *cur_itf_num)
 {
-    usb_log_e("hid interface num:%d\n", *cur_itf_num);
+    log_error("hid interface num:%d\n", *cur_itf_num);
     u8 *_ptr = ptr;
     memcpy(ptr, sHIDDescriptor, sizeof(sHIDDescriptor));
     ptr[2] = *cur_itf_num;

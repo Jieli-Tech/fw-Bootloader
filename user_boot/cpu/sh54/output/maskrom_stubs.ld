@@ -3,12 +3,12 @@
   bit_set_swi = ABSOLUTE(0xc2f28);
   bit_clr_swi = ABSOLUTE(0xc2f2c);
   p33_buf = ABSOLUTE(0xc2f30);
-  _p33_xor_1byte = ABSOLUTE(0xc2f34);
-  _p33_and_1byte = ABSOLUTE(0xc2f38);
-  _p33_or_1byte = ABSOLUTE(0xc2f3c);
-  _p33_tx_1byte = ABSOLUTE(0xc2f40);
-  _p33_rx_1byte = ABSOLUTE(0xc2f44);
-  _P33_CON_SET = ABSOLUTE(0xc2f48);
+  p33_xor_1byte = ABSOLUTE(0xc2f34);
+  p33_and_1byte = ABSOLUTE(0xc2f38);
+  p33_or_1byte = ABSOLUTE(0xc2f3c);
+  p33_tx_1byte = ABSOLUTE(0xc2f40);
+  p33_rx_1byte = ABSOLUTE(0xc2f44);
+  P33_CON_SET = ABSOLUTE(0xc2f48);
   memmem = ABSOLUTE(0xc2f4c);
   memcpy = ABSOLUTE(0xc2f50);
   memmove = ABSOLUTE(0xc2f54);
@@ -38,7 +38,7 @@
   chip_crc16 = ABSOLUTE(0xc2fb4);
   CrcDecode = ABSOLUTE(0xc2fb8);
   mask_init = ABSOLUTE(0xc2fbc);
-  wdt_clear = ABSOLUTE(0xc2fc0);
+  wdt_clr = ABSOLUTE(0xc2fc0);
   nvram_set_boot_state = ABSOLUTE(0xc2fc4);
   chip_reset = ABSOLUTE(0xc2fc8);
   flash_poweron = ABSOLUTE(0xc2fcc);
@@ -61,3 +61,4 @@
   _IRQ_MEM_ADDR = ABSOLUTE(0x7f00);
   _MASK_MEM_BEGIN = ABSOLUTE(0x7eb0);
   _MASK_MEM_SIZE = ABSOLUTE(0x48);
+  nvram_list = ABSOLUTE(0x7ee4);

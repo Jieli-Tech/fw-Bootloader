@@ -4,49 +4,55 @@
 #include "printf.h"
 #include "clock.h"
 
+#define LOG_TAG_CONST       UPGRADE
+#define LOG_TAG             "[uart]"
+#define LOG_ERROR_ENABLE
+#define LOG_DEBUG_ENABLE
+#define LOG_INFO_ENABLE
+#include "log.h"
 static u8 used_tx_io;
 
 void putchar(char a)
 {
-#if (APP_DEBUG)
-    if (JL_UT0->CON & BIT(0)) {
-        JL_UT0->BUF = a;
-        __asm__ volatile("csync");
-        while ((JL_UT0->CON & BIT(15)) == 0);
-        JL_UT0->CON |= BIT(13);
+    if (libs_debug) {
+        if (JL_UT0->CON & BIT(0)) {
+            JL_UT0->BUF = a;
+            __asm__ volatile("csync");
+            while ((JL_UT0->CON & BIT(15)) == 0);
+            JL_UT0->CON |= BIT(13);
+        }
     }
-#endif
 }
 
 void uart_init(const char *tx_io, u32 baud)
 {
-    //PLL48M
-    JL_CLK->CON0 &= ~BIT(8);
-    JL_CLK->CON0 &= ~BIT(9);
-    JL_IOMC->IOMC0 &= ~(BIT(5) | BIT(6));
-    JL_IOMC->IOMC0 &= ~BIT(4);
+    if (libs_debug) {
+        //PLL48M
+        JL_CLK->CON0 &= ~BIT(8);
+        JL_CLK->CON0 &= ~BIT(9);
+        JL_IOMC->IOMC0 &= ~(BIT(5) | BIT(6));
+        JL_IOMC->IOMC0 &= ~BIT(4);
 
-#if (APP_DEBUG)
-    used_tx_io = get_gpio(tx_io);
-    if ((baud) && (used_tx_io < IO_PORT_MAX)) {
-        gpio_output_channle(used_tx_io, CH1_UT0_TX);
-        JL_UT0->BAUD = 48000000 / baud / 4 - 1;
-        JL_UT0->CON = BIT(13) | BIT(12) | BIT(0);
+        used_tx_io = get_gpio(tx_io);
+        if ((baud) && (used_tx_io < IO_PORT_MAX)) {
+            gpio_output_channle(used_tx_io, CH1_UT0_TX);
+            JL_UT0->BAUD = 48000000 / baud / 4 - 1;
+            JL_UT0->CON = BIT(13) | BIT(12) | BIT(0);
+        }
     }
-#endif
 }
 
 void uart_close(void)
 {
-#if (APP_DEBUG)
-    if (JL_UT0->CON & BIT(0)) {
-        JL_UT0->CON = 0;
-        gpio_set_pull_up(used_tx_io, 0);
-        gpio_set_pull_down(used_tx_io, 0);
-        gpio_set_die(used_tx_io, 0);
-        gpio_set_direction(used_tx_io, 1);
+    if (libs_debug) {
+        if (JL_UT0->CON & BIT(0)) {
+            JL_UT0->CON = 0;
+            gpio_set_pull_up(used_tx_io, 0);
+            gpio_set_pull_down(used_tx_io, 0);
+            gpio_set_die(used_tx_io, 0);
+            gpio_set_direction(used_tx_io, 1);
+        }
     }
-#endif
 }
 
 

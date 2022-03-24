@@ -25,31 +25,18 @@ extern volatile unsigned long jiffies ;
 #endif
 
 
-#ifdef __PRINTF_DEBUG
-#define APP_DEBUG    1
-#else
-#define APP_DEBUG    0
-#endif
-
-#if APP_DEBUG
-#define log_info			printf
-#define log_info_hexdump    printf_buf
-#else
-#define log_info(...)
-#define log_info_hexdump(a,b)
-#endif
 
 #define ASSERT(a,...)   \
 		do { \
 			if(!(a)){ \
-				log_info("file:%s, line:%d", __FILE__, __LINE__); \
-				log_info("ASSERT-FAILD: "#a" "__VA_ARGS__); \
+				log_error("file:%s, line:%d", __FILE__, __LINE__); \
+				log_error("ASSERT-FAILD: "#a" "__VA_ARGS__); \
                 while(1);\
 			} \
 		}while(0);
 
 
-void wdt_clr();
 
+void wdt_clr();
 #endif
 

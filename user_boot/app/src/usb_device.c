@@ -6,6 +6,12 @@
 #include "delay.h"
 #include "usb/hid.h"
 /* #include "usb/cdc.h" */
+#define LOG_TAG_CONST       UPGRADE
+#define LOG_TAG             "[usb]"
+#define LOG_ERROR_ENABLE
+#define LOG_DEBUG_ENABLE
+#define LOG_INFO_ENABLE
+#include "log.h"
 
 #define     TCFG_USB_SLAVE_HID_ENABLE       1
 

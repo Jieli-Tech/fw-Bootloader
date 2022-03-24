@@ -4,11 +4,6 @@
 #include "common.h"
 
 
-void mask_init(void *f, void *m, void *stack_free, void *stack_malloc,
-               void *suppress_tick_and_sleep,
-               void *StartFirstTask,
-               void *exp_hook, void *i_hook,
-               void *pchar, void *log_e);
 
 void uart_init(const char *tx_io, u32 baud);
 void putchar(char a);

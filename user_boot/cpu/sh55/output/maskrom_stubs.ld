@@ -38,7 +38,7 @@
   chip_crc16 = ABSOLUTE(0xc27ac);
   CrcDecode = ABSOLUTE(0xc27b0);
   mask_init = ABSOLUTE(0xc27b4);
-  wdt_clear = ABSOLUTE(0xc27b8);
+  wdt_clr = ABSOLUTE(0xc27b8);
   nvram_set_boot_state = ABSOLUTE(0xc27bc);
   chip_reset = ABSOLUTE(0xc27c0);
   flash_poweron = ABSOLUTE(0xc27c4);
@@ -60,3 +60,4 @@
   _IRQ_MEM_ADDR = ABSOLUTE(0x4f00);
   _MASK_MEM_BEGIN = ABSOLUTE(0x4eb0);
   _MASK_MEM_SIZE = ABSOLUTE(0x48);
+  nvram_list = ABSOLUTE(0x4ee4);

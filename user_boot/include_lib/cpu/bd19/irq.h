@@ -17,6 +17,9 @@
 #define IRQ_USB_SOF_IDX    8   	//1
 #define IRQ_USB_CTRL_IDX   9  	//1
 
+#define IRQ_SOFT0_IDX      60
+
+
 extern u32 _IRQ_MEM_ADDR[];
 
 #define IRQ_MEM_ADDR    (_IRQ_MEM_ADDR)

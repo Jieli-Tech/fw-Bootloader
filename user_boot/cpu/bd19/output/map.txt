@@ -1,0 +1,353 @@
+Archive member included to satisfy reference by file (symbol)
+
+../../include_lib/liba/bd19/uboot.a(dec.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(lz4.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(printf.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(gpio.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(wdt.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(setup.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(clock.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(usb.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(efuse.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(crc.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(p33.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(irq.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(spi.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(sfc_boot.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(norflash.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(jlfs.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(upgrade.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(startup.o)
+                              (--whole-archive)
+../../include_lib/liba/bd19/uboot.a(version.z.o)
+                              (--whole-archive)
+C:\JL\pi32\q32s-lib\libc.a(lib_a-memcmp.o)
+                              obj/Release/app/src/user.o (symbol from plugin) (memcmp)
+C:\JL\pi32\q32s-lib\libc.a(lib_a-memcpy.o)
+                              obj/Release/app/src/descriptor.o (symbol from plugin) (memcpy)
+C:\JL\pi32\q32s-lib\libc.a(lib_a-memset.o)
+                              obj/Release/app/src/user.o (symbol from plugin) (memset)
+C:\JL\pi32\q32s-lib\libc.a(lib_a-strcmp.o)
+                              dec.o (symbol from plugin) (strcmp)
+C:\JL\pi32\q32s-lib\libc.a(lib_a-strlen.o)
+                              dec.o (symbol from plugin) (strlen)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 obj/Release/app/src/descriptor.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/Release/app/src/hid.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/Release/app/src/log_config.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/Release/app/src/main.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/Release/app/src/user.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/Release/cpu/bd19/delay.o (symbol from plugin)
+ .text          0x00000000        0x0 obj/Release/cpu/bd19/uart.o (symbol from plugin)
+ .text          0x00000000        0x0 dec.o (symbol from plugin)
+ .text          0x00000000        0x0 lz4.o (symbol from plugin)
+ .text          0x00000000        0x0 printf.o (symbol from plugin)
+ .text          0x00000000        0x0 gpio.o (symbol from plugin)
+ .text          0x00000000        0x0 wdt.o (symbol from plugin)
+ .text          0x00000000        0x0 setup.o (symbol from plugin)
+ .text          0x00000000        0x0 clock.o (symbol from plugin)
+ .text          0x00000000        0x0 usb.o (symbol from plugin)
+ .text          0x00000000        0x0 efuse.o (symbol from plugin)
+ .text          0x00000000        0x0 crc.o (symbol from plugin)
+ .text          0x00000000        0x0 p33.o (symbol from plugin)
+ .text          0x00000000        0x0 irq.o (symbol from plugin)
+ .text          0x00000000        0x0 spi.o (symbol from plugin)
+ .text          0x00000000        0x0 sfc_boot.o (symbol from plugin)
+ .text          0x00000000        0x0 norflash.o (symbol from plugin)
+ .text          0x00000000        0x0 jlfs.o (symbol from plugin)
+ .text          0x00000000        0x0 upgrade.o (symbol from plugin)
+ .text          0x00000000        0x0 ../../include_lib/liba/bd19/uboot.a(startup.o)
+ .text          0x00000000        0x0 ../../include_lib/liba/bd19/uboot.a(version.z.o)
+ .text          0x00000000       0x3c C:\JL\pi32\q32s-lib\libc.a(lib_a-memcmp.o)
+ .text          0x00000000      0x106 C:\JL\pi32\q32s-lib\libc.a(lib_a-memcpy.o)
+ .text          0x00000000       0x56 C:\JL\pi32\q32s-lib\libc.a(lib_a-memset.o)
+ .text          0x00000000       0xa8 C:\JL\pi32\q32s-lib\libc.a(lib_a-strcmp.o)
+ .text          0x00000000        0xe C:\JL\pi32\q32s-lib\libc.a(lib_a-strlen.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text_ram         0x00002000         0x00008000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD obj/Release/app/src/descriptor.o
+LOAD C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+LOAD obj/Release/app/src/hid.o
+LOAD obj/Release/app/src/log_config.o
+LOAD obj/Release/app/src/main.o
+LOAD obj/Release/app/src/user.o
+LOAD obj/Release/cpu/bd19/delay.o
+LOAD obj/Release/cpu/bd19/uart.o
+                0x00106d98                local_irq_enable = 0x106d98
+                0x00106d9c                local_irq_disable = 0x106d9c
+                0x00106da0                lp_signature_set = 0x106da0
+                0x00106da4                os_init = 0x106da4
+                0x00106da8                os_start = 0x106da8
+                0x00106dac                os_get_curr_tcb_var = 0x106dac
+                0x00106db0                os_task_create = 0x106db0
+                0x00106db4                os_current_task_rom = 0x106db4
+                0x00106db8                os_time_dly = 0x106db8
+                0x00106dbc                os_time_get = 0x106dbc
+                0x00106dc0                os_task_del_req = 0x106dc0
+                0x00106dc4                os_task_del_res = 0x106dc4
+                0x00106dc8                os_task_del = 0x106dc8
+                0x00106dcc                __os_taskq_pend = 0x106dcc
+                0x00106dd0                os_taskq_pend = 0x106dd0
+                0x00106dd4                os_task_pend = 0x106dd4
+                0x00106dd8                __os_taskq_post = 0x106dd8
+                0x00106ddc                os_taskq_post = 0x106ddc
+                0x00106de0                os_taskq_post_type = 0x106de0
+                0x00106de4                os_taskq_flush = 0x106de4
+                0x00106de8                task_queue_post_event = 0x106de8
+                0x00106dec                os_taskq_post_msg = 0x106dec
+                0x00106df0                os_taskq_post_event = 0x106df0
+                0x00106df4                os_taskq_accept = 0x106df4
+                0x00106df8                os_taskq_del = 0x106df8
+                0x00106dfc                os_taskq_del_type = 0x106dfc
+                0x00106e00                os_sem_create = 0x106e00
+                0x00106e04                os_sem_del = 0x106e04
+                0x00106e08                os_sem_pend = 0x106e08
+                0x00106e0c                os_sem_post = 0x106e0c
+                0x00106e10                os_sem_set = 0x106e10
+                0x00106e14                os_sem_valid = 0x106e14
+                0x00106e18                os_sem_query = 0x106e18
+                0x00106e1c                os_mutex_create = 0x106e1c
+                0x00106e20                os_mutex_del = 0x106e20
+                0x00106e24                os_mutex_pend = 0x106e24
+                0x00106e28                os_mutex_post = 0x106e28
+                0x00106e2c                os_mutex_valid = 0x106e2c
+                0x00106e30                xTaskCreate = 0x106e30
+                0x00106e34                xTaskGetCurrentTaskHandle = 0x106e34
+                0x00106e38                xTaskGetTickCount = 0x106e38
+                0x00106e3c                xTaskGetHandle = 0x106e3c
+                0x00106e40                vTaskDelete = 0x106e40
+                0x00106e44                xTaskGetApplicationTaskTag = 0x106e44
+                0x00106e48                vTaskSetApplicationTaskTag = 0x106e48
+                0x00106e4c                xQueueGenericCreateStatic = 0x106e4c
+                0x00106e50                xQueueGenericReset = 0x106e50
+                0x00106e54                xQueueGenericSend = 0x106e54
+                0x00106e58                xQueueGenericSendFromISR = 0x106e58
+                0x00106e5c                xQueueGenericReceive = 0x106e5c
+                0x00106e60                xQueueReceiveFromISR = 0x106e60
+                0x00106e64                vQueueDelete = 0x106e64
+                0x00106e68                uxQueueMessagesWaiting = 0x106e68
+                0x00106e6c                uxQueueMessagesWaitingFromISR = 0x106e6c
+                0x00106e70                uxQueueSpacesAvailable = 0x106e70
+                0x00106e74                pcTaskGetName = 0x106e74
+                0x00106e78                prvGetExpectedIdleTime = 0x106e78
+                0x00106e7c                eTaskConfirmSleepModeStatus = 0x106e7c
+                0x00106e80                vTaskStepTick = 0x106e80
+                0x00106e84                pxPortInitialiseStack = 0x106e84
+                0x00106e88                xPortStartScheduler = 0x106e88
+                0x00106e8c                vPortEndScheduler = 0x106e8c
+                0x00106e90                vPortYield = 0x106e90
+                0x00106e94                vPortExitCritical = 0x106e94
+                0x00106e98                OS_ClrPending = 0x106e98
+                0x00106e9c                vTickISR = 0x106e9c
+                0x00106ea0                pmalloc_init = 0x106ea0
+                0x00106ea4                pmalloc = 0x106ea4
+                0x00106ea8                pfree = 0x106ea8
+                0x00106eac                pmalloc_get_unused_pages = 0x106eac
+                0x00106eb0                get_physic_address = 0x106eb0
+                0x00106eb4                pmm_get_var = 0x106eb4
+                0x00106eb8                vmm_init_ = 0x106eb8
+                0x00106ebc                vmalloc_ = 0x106ebc
+                0x00106ec0                vfree_ = 0x106ec0
+                0x00106ec4                vmem_get_phy_adr = 0x106ec4
+                0x00106ec8                vmem_start = 0x106ec8
+                0x00106ecc                vmem_end = 0x106ecc
+                0x00106ed0                vmm_get_var = 0x106ed0
+                0x00106ed4                vmalloc_v2 = 0x106ed4
+                0x00106ed8                vfree_v2 = 0x106ed8
+                0x00106edc                vcopy_ = 0x106edc
+                0x00106ee0                memmem = 0x106ee0
+                0x00106ee4                memcpy = 0x106ee4
+                0x00106ee8                memmove = 0x106ee8
+                0x00106eec                memcmp = 0x106eec
+                0x00106ef0                memset = 0x106ef0
+                0x00106ef4                strcmp = 0x106ef4
+                0x00106ef8                strcpy = 0x106ef8
+                0x00106efc                strlen = 0x106efc
+                0x00106f00                strncmp = 0x106f00
+                0x00106f04                strstr = 0x106f04
+                0x00106f08                strchr = 0x106f08
+                0x00106f0c                IcuInitial = 0x106f0c
+                0x00106f10                DcuInitial = 0x106f10
+                0x00106f14                IcuCmdKst = 0x106f14
+                0x00106f18                DcuCmdKst = 0x106f18
+                0x00106f1c                IcuCmdSend = 0x106f1c
+                0x00106f20                DcuCmdSend = 0x106f20
+                0x00106f24                sfc_suspend = 0x106f24
+                0x00106f28                sfc_resume = 0x106f28
+                0x00106f2c                sfc_drop_cache = 0x106f2c
+                0x00106f30                chip_crc16 = 0x106f30
+                0x00106f34                CrcDecode = 0x106f34
+                0x00106f38                mask_init = 0x106f38
+                0x00106f3c                wdt_clr = 0x106f3c
+                0x00106f40                nvram_set_boot_state = 0x106f40
+                0x00106f44                chip_reset = 0x106f44
+                0x00106f48                the_debug_isr = 0x106f48
+                0x00106f4c                doe = 0x106f4c
+                0x00106f50                _pll_init = 0x106f50
+                0x00106f54                flash_poweron = 0x106f54
+                0x00106f58                spi_unmount = 0x106f58
+                0x00106f5c                spi_port_io_init = 0x106f5c
+                0x00106f60                LZ4_setStreamDecode = 0x106f60
+                0x00106f64                LZ4_decompress_safe_continue = 0x106f64
+                0x00106f68                LZ4_decompress_safe_usingDict = 0x106f68
+                0x00106f6c                _sdk_mkey_lock = 0x106f6c
+                0x00106f70                g_hash_function = 0x106f70
+                0x00106f74                f1_hash_function = 0x106f74
+                0x00106f78                f2_hash_function = 0x106f78
+                0x00106f7c                f3_hash_function = 0x106f7c
+                0x00106f80                h2_hash_function = 0x106f80
+                0x00106f84                h3_hash_function = 0x106f84
+                0x00106f88                h4_hash_function = 0x106f88
+                0x00106f8c                h5_hash_function = 0x106f8c
+                0x00106f90                g_function = 0x106f90
+                0x00106f94                f1_function = 0x106f94
+                0x00106f98                f2_function = 0x106f98
+                0x00106f9c                f3_function = 0x106f9c
+                0x00106fa0                sha256Compute = 0x106fa0
+                0x00106fa4                uECC_compute_public_key = 0x106fa4
+                0x00106fa8                uECC_valid_public_key = 0x106fa8
+                0x00106fac                uECC_make_key = 0x106fac
+                0x00106fb0                uECC_shared_secret = 0x106fb0
+                0x00106fb4                bi_initialize = 0x106fb4
+                0x00106fb8                bi_read_from_byte = 0x106fb8
+                0x00106fbc                bi_poly_mod2 = 0x106fbc
+                0x00106fc0                bi_poly_mul = 0x106fc0
+                0x00106fc4                trim = 0x106fc4
+                0x00106fc8                bi_wirte_to_byte = 0x106fc8
+                0x00106fcc                bi_free = 0x106fcc
+                0x00106fd0                bi_terminate = 0x106fd0
+                0x00106fd4                uECC_vli_isZero = 0x106fd4
+                0x00106fd8                uECC_vli_modSquare_fast = 0x106fd8
+                0x00106fdc                uECC_vli_modMult_fast = 0x106fdc
+                0x00106fe0                uECC_vli_modAdd = 0x106fe0
+                0x00106fe4                uECC_vli_modSub = 0x106fe4
+                0x00106fe8                uECC_vli_testBit = 0x106fe8
+                0x00106fec                uECC_vli_add = 0x106fec
+                0x00106ff0                uECC_vli_rshift1 = 0x106ff0
+                0x00106ff4                uECC_vli_set = 0x106ff4
+                0x00106ff8                uECC_vli_sub = 0x106ff8
+                0x00106ffc                uECC_vli_cmp_unsafe = 0x106ffc
+                0x0000fc00                boot_arg_list = 0xfc00
+                0x0000ff00                _IRQ_MEM_ADDR = 0xff00
+                0x0000fbe0                _MASK_MEM_BEGIN = 0xfbe0
+                0x00000294                _MASK_MEM_SIZE = 0x294
+                0x0010517a                HWI_Install = 0x10517a
+                0x00000800                nvram_list = 0x800
+                0x00002000                . = ORIGIN (text_ram)
+
+.text           0x00002000      0xe20
+ *(.start*)
+ .start         0x00002000       0x3c ../../include_lib/liba/bd19/uboot.a(startup.o)
+                0x00002000                _start
+ *(.text*)
+ .text          0x0000203c      0xd66 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+                0x000024fa                main
+                0x00002d96                setup_init
+ *(.data*)
+ *(.rodata*)
+ *fill*         0x00002da2        0xe 
+ .rodata        0x00002db0       0x68 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+                0x00002e20                . = ALIGN (0x20)
+ *fill*         0x00002e18        0x8 
+
+.uboot.version  0x00002e20       0x23
+ .uboot.version
+                0x00002e20       0x23 ../../include_lib/liba/bd19/uboot.a(version.z.o)
+                0x00002e20                lib_uboot_version
+
+.bss            0x00002e60     0x18a0
+ *(.stack*)
+ .stack         0x00002e60      0x800 ../../include_lib/liba/bd19/uboot.a(startup.o)
+                0x00003260                _stack
+                0x00003660                _ustack
+ *(.bss)
+ .bss           0x00003660     0x10a0 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+ *(.usb_ep0)
+ *(.usb_config_var)
+                0x00004700                . = ALIGN (0x20)
+
+.bss_noinit     0x00004700       0x20
+ *(.bss_noinit)
+ .bss_noinit    0x00004700        0x4 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+                0x00004720                . = ALIGN (0x20)
+ *fill*         0x00004704       0x1c 
+                0x00002e60                bss_begin = ADDR (.bss)
+                0x000018a0                bss_size = SIZEOF (.bss)
+START GROUP
+LOAD ../../include_lib/liba/bd19/uboot.a
+END GROUP
+LOAD C:\JL\pi32\q32s-lib\libm.a
+LOAD C:\JL\pi32\q32s-lib\libc.a
+LOAD C:\JL\pi32\q32s-lib\libm.a
+LOAD C:\JL\pi32\q32s-lib\libcompiler-rt.a
+OUTPUT(..\..\cpu\bd19\output\uboot.elf elf32-q32s)
+
+.debug_str      0x00000000     0x1a77
+ .debug_str     0x00000000     0x1a77 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+                               0x1c62 (size before relaxing)
+
+.debug_loc      0x00000000      0x65a
+ .debug_loc     0x00000000      0x65a C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+
+.debug_abbrev   0x00000000      0x59d
+ .debug_abbrev  0x00000000      0x575 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+ .debug_abbrev  0x00000575       0x28 ../../include_lib/liba/bd19/uboot.a(startup.o)
+
+.debug_info     0x00000000     0x364e
+ .debug_info    0x00000000     0x34ed C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+ .debug_info    0x000034ed      0x161 ../../include_lib/liba/bd19/uboot.a(startup.o)
+
+.debug_ranges   0x00000000       0xe8
+ .debug_ranges  0x00000000       0xe8 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+
+.debug_macinfo  0x00000000        0x1
+ .debug_macinfo
+                0x00000000        0x1 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+
+.debug_pubnames
+                0x00000000      0xa5b
+ .debug_pubnames
+                0x00000000      0xa5b C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+
+.debug_pubtypes
+                0x00000000      0x5e8
+ .debug_pubtypes
+                0x00000000      0x5e8 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+
+.debug_frame    0x00000000      0x1a0
+ .debug_frame   0x00000000      0x1a0 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+
+.debug_line     0x00000000     0x187c
+ .debug_line    0x00000000     0x17f2 C:\Users\ZhiYe\AppData\Local\Temp\lto-llvm-0de487.o
+ .debug_line    0x000017f2       0x5e ../../include_lib/liba/bd19/uboot.a(startup.o)
+ .debug_line    0x00001850       0x2c ../../include_lib/liba/bd19/uboot.a(version.z.o)
+
+.debug_aranges  0x00000000       0x20
+ .debug_aranges
+                0x00000000       0x20 ../../include_lib/liba/bd19/uboot.a(startup.o)

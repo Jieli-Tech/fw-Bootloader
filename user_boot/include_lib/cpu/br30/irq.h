@@ -4,6 +4,7 @@
 #include "common.h"
 
 
+#define IRQ_EMUEXCPT_IDX    0
 #define IRQ_TIME0_IDX      4   	//0
 #define IRQ_TIME1_IDX      5   	//0
 #define IRQ_TIME2_IDX      6   	//0
@@ -16,6 +17,8 @@
 
 #define IRQ_USB_SOF_IDX    8   	//1
 #define IRQ_USB_CTRL_IDX   9  	//1
+
+#define IRQ_SOFT0_IDX      60
 
 extern u32 _IRQ_MEM_ADDR[];
 

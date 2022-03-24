@@ -8,5 +8,6 @@ int printf(const char *format, ...);
 void printf_buf(u8 *buf, u32 len);
 void put_buf(u8 *buf, u32 len);
 
+#define line_inf printf("%s %s %d \r\n" ,__FILE__ ,__func__ , __LINE__)
 
 #endif

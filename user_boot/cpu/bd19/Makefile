@@ -2,6 +2,14 @@
 # make 编译并下载
 # make VERBOSE=1 显示编译详细过程
 # make clean 清除编译临时文件
+#
+# 注意： Linux 下编译方式：
+#     1. 从 http://pkgman.jieliapp.com/doc/all 处找到下载链接
+#     2. 下载后，解压到 /opt/jieli 目录下，保证
+#       /opt/jieli/common/bin/clang 存在（注意目录层次）
+#     3. 确认 ulimit -n 的结果足够大（建议大于8096），否则链接可能会因为打开文件太多而失败
+#       可以通过 ulimit -n 8096 来设置一个较大的值
+#
 
 # 工具路径设置
 ifeq ($(OS), Windows_NT)
@@ -16,6 +24,7 @@ RM    := rm -rf
 
 SYS_LIB_DIR := C:/JL/pi32/q32s-lib
 SYS_INC_DIR := C:/JL/pi32/q32s-include
+EXT_CFLAGS  := # Windows 下不需要 -D__SHELL__
 
 ## 后处理脚本
 POST_SCRIPT     := ..\..\cpu\bd19\output\download.bat
@@ -32,6 +41,7 @@ RM    := rm -rf
 
 SYS_LIB_DIR := $(TOOL_DIR)/../lib
 SYS_INC_DIR := $(TOOL_DIR)/../include
+EXT_CFLAGS  := -D__SHELL__ # Linux 下需要这个保证正确处理 download.c
 
 ## 后处理脚本
 POST_SCRIPT     := ../../cpu/bd19/output/download.sh
@@ -58,16 +68,17 @@ CFLAGS := \
 	-fno-builtin \
 	-mllvm -inline-threshold=5 \
 	-Oz \
+	-Werror=implicit-function-declaration \
+	-Werror=macro-redefined \
+	-Werror=return-type \
+	-Werror=int-conversion \
 	-integrated-as \
 	-fallow-pointer-null \
 	-fno-common \
 	-flto \
 	-Oz \
-	-Werror=implicit-function-declaration \
-	-Werror=macro-redefined \
-	-Werror=return-type \
-	-Werror=int-conversion \
 	-Wno-format \
+	-Wno-main-return-type \
 	-Wno-unused-value \
 	-Wno-unused-function \
 	-Wno-unused-comparison \
@@ -77,6 +88,11 @@ CFLAGS := \
 	-Wno-invalid-noreturn \
 	-Wno-visibility \
 	-Wno-integer-overflow \
+	-g \
+
+
+# C++额外的编译参数
+CXXFLAGS :=
 
 
 # 宏定义
@@ -88,8 +104,11 @@ DEFINES := \
 	-D__MASK_FS_V2 \
 	-D__MASK_LZ4 \
 	-D__UPDATE_NEED_SFC \
+	-D__ZE_FLASH_CAM_PATCH \
 	-D__HID_UART_MODE_SEL=1 \
 
+
+DEFINES += $(EXT_CFLAGS) # 额外的一些定义
 
 # 头文件搜索路径
 INCLUDES := \
@@ -109,6 +128,7 @@ INCLUDES := \
 c_SRC_FILES := \
 	../../app/src/descriptor.c \
 	../../app/src/hid.c \
+	../../app/src/log_config.c \
 	../../app/src/main.c \
 	../../app/src/user.c \
 	../../cpu/bd19/delay.c \
@@ -127,16 +147,24 @@ s_SRC_FILES :=
 cpp_SRC_FILES :=
 
 
+# 需要编译的 .cc 文件
+cc_SRC_FILES :=
+
+
+# 需要编译的 .cxx 文件
+cxx_SRC_FILES :=
+
+
 # 链接参数
 LFLAGS := \
-	--gc-sections \
-	--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp \
-	-M=../../cpu/bd19/output/map.txt \
-	-T../../cpu/bd19/output/ram.ld \
 	--plugin-opt=-inline-threshold=5 \
 	--plugin-opt=-enable-ipra=true \
 	--plugin-opt=-global-merge-on-const \
 	--plugin-opt=-inline-normal-into-special-section=true \
+	--gc-sections \
+	--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp \
+	-M=../../cpu/bd19/output/map.txt \
+	-T../../cpu/bd19/output/ram.ld \
 	--start-group \
 	--whole-archive \
 	../../include_lib/liba/bd19/uboot.a \
@@ -162,8 +190,10 @@ c_OBJS    := $(c_SRC_FILES:%.c=%.c.o)
 S_OBJS    := $(S_SRC_FILES:%.S=%.S.o)
 s_OBJS    := $(s_SRC_FILES:%.s=%.s.o)
 cpp_OBJS  := $(cpp_SRC_FILES:%.cpp=%.cpp.o)
+cxx_OBJS  := $(cxx_SRC_FILES:%.cxx=%.cxx.o)
+cc_OBJS   := $(cc_SRC_FILES:%.cc=%.cc.o)
 
-OBJS      := $(c_OBJS) $(S_OBJS) $(s_OBJS) $(cpp_OBJS)
+OBJS      := $(c_OBJS) $(S_OBJS) $(s_OBJS) $(cpp_OBJS) $(cxx_OBJS) $(cc_OBJS)
 DEP_FILES := $(OBJS:%.o=%.d)
 
 
@@ -178,48 +208,80 @@ else
 QUITE := @
 endif
 
+# 一些旧的 make 不支持 file 函数，需要 make 的时候指定 LINK_AT=0 make
+LINK_AT ?= 1
+
+# 表示下面的不是一个文件的名字，无论是否存在 all, clean, pre_build 这样的文件
+# 还是要执行命令
+# see: https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
 .PHONY: all clean pre_build
 
+# 不要使用 make 预设置的规则
+# see: https://www.gnu.org/software/make/manual/html_node/Suffix-Rules.html
+.SUFFIXES:
+
 all: pre_build $(OUT_ELF)
-	@echo +POST-BUILD
+	$(info +POST-BUILD)
 	$(QUITE) $(RUN_POST_SCRIPT) uboot
 
 pre_build:
-	@echo +PRE-BUILD
+	$(info +PRE-BUILD)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -D__LD__ -E -P ../../cpu/bd19/output/ram_ld.c -o ../../cpu/bd19/output/ram.ld
 
 clean:
 	$(QUITE) $(RM) $(OUT_ELF)
-	$(QUITE) $(RM) $(OBJS)
-	$(QUITE) $(RM) $(DEP_FILES)
+	$(QUITE) $(RM) $(BUILD_DIR)
 
+
+
+ifeq ($(LINK_AT), 1)
 $(OUT_ELF): $(OBJS)
-	@echo +LINK $@
+	$(info +LINK $@)
+	$(shell $(MKDIR) $(@D))
 	$(file >$(OBJ_FILE), $(OBJS))
 	$(QUITE) $(LD) -o $(OUT_ELF) @$(OBJ_FILE) $(LFLAGS) $(LIBPATHS) $(LIBS)
+else
+$(OUT_ELF): $(OBJS)
+	$(info +LINK $@)
+	$(shell $(MKDIR) $(@D))
+	$(QUITE) $(LD) -o $(OUT_ELF) $(OBJS) $(LFLAGS) $(LIBPATHS) $(LIBS)
+endif
+
 
 $(BUILD_DIR)/%.c.o : $(ROOT_PREFIX)/%.c
-	@echo +CC $<
+	$(info +CC $<)
 	@$(MKDIR) $(@D)
 	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.S.o : $(ROOT_PREFIX)/%.S
-	@echo +AS $<
+	$(info +AS $<)
 	@$(MKDIR) $(@D)
 	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.s.o : $(ROOT_PREFIX)/%.s
-	@echo +AS $<
+	$(info +AS $<)
 	@$(MKDIR) $(@D)
 	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.cpp.o : $(ROOT_PREFIX)/%.cpp
-	@echo +CXX $<
+	$(info +CXX $<)
 	@$(MKDIR) $(@D)
-	@$(CXX) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
-	$(QUITE) $(CXX) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	$(QUITE) $(CXX) $(CXXFLAGS) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/%.cxx.o : $(ROOT_PREFIX)/%.cxx
+	$(info +CXX $<)
+	@$(MKDIR) $(@D)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	$(QUITE) $(CXX) $(CXXFLAGS) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/%.cc.o : $(ROOT_PREFIX)/%.cc
+	$(info +CXX $<)
+	@$(MKDIR) $(@D)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	$(QUITE) $(CXX) $(CXXFLAGS) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 -include $(DEP_FILES)

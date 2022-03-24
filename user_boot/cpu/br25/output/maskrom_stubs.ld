@@ -192,4 +192,5 @@
 
   HWI_Install = ABSOLUTE(0x115fb0);
   rom_irq_init = ABSOLUTE(0x112a40);
+  nvram_list = ABSOLUTE(0x10880);
 

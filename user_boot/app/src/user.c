@@ -6,54 +6,105 @@
 #include "crc.h"
 #include "dec.h"
 
+#define LOG_TAG_CONST       UPGRADE
+#define LOG_TAG             "[user]"
+#define LOG_ERROR_ENABLE
+#define LOG_DEBUG_ENABLE
+#define LOG_INFO_ENABLE
+#include "log.h"
+
+/**********************************************************************************************************
+多字节数据：低字节在前，高字节在后，即小端格式(little endian)。
+CRC16 标准： CRC-CCITT (XModem)。
+回复使用相同指令。
+
+| Byte[0]         | Byte[1]         | Byte[3~2] | Byte[4] | Byte[5]    | Byte[6~n-2]       | Byte[n~n-1] |
+| --------------- | --------------- | --------- | ------- | ---------- | ----------------- | ----------- |
+| syncdata0(0xAA) | syncdata1(0x55) | cmd_len   | cmd     | rsp_status | param(部分指令无) | crc16       |
+
+参数说明：
+syncdata0:  固定为 0xAA
+syncdata1:  固定为0x55
+cmd_len:    cmd + rsp_status + union 数据的 长度
+cmd:        操作指令
+rsp_status: 回复状态
+param:      对应操作指令的参数（部分指令无参数）
+crc16:      整个命令包（除去crc自身）的crc16结果
+
+demo加密部分为 cmd+rsp_status+param
+**********************************************************************************************************/
 
 JLFS_FILE upgrade_file;
 
-typedef struct {
+#define SYNC_MARK0 0xAA
+#define SYNC_MARK1 0x55
 
 #define JL_SU_CMD_DEVICE_INIT   0xC0
 #define JL_SU_CMD_DEVICE_CHECK  0xC1
 #define JL_SU_CMD_ERASE         0xC2
 #define JL_SU_CMD_WRITE         0xC3
 #define JL_SU_CMD_FLASH_CRC     0xC4
-#define JL_SU_CMD_EX_KEY        0xC5
+/* #define JL_SU_CMD_EX_KEY        0xC5 */
 
 #define JL_SU_CMD_REBOOT        0xCA
 
-    u16 rand;
+#define JL_ERASE_TYPE_PAGE   1
+#define JL_ERASE_TYPE_SECTOR 2
+#define JL_ERASE_TYPE_BLOCK  3
+
+enum {
+    JL_SU_CMD_SUSS,
+    JL_SU_CMD_SDK_ID_ERROR,
+    JL_SU_CMD_WRITE_ERROR,
+    JL_SU_CMD_ERASE_ERROR,
+    JL_SU_CMD_OTHER_ERROR,
+};
+
+//上位机结构体
+typedef struct {
+    u8 syncdata0;
+    u8 syncdata1;
+    u16 cmd_len;
+    u8 cmd;
     u8 rsp_status;
-    u8 cmd;        // 操作命令
     union {
         struct {
-            u32 data_length;
-            u8  data[0];
-        } ex_key;
+            u32 sdk_id;
+        } device_check;
 
         struct {
             u32 address;		// 烧写FLASH地址
-            u16 data_length;
-            u16 data_crc;       // 烧写数据校验码
+            u32 data_length;    //烧写长度
             u8  data[0];		// 烧写数据
         } write;
 
         struct {
             u32 address;    //需要对齐
-#define JL_ERASE_TYPE_PAGE   1
-#define JL_ERASE_TYPE_SECTOR 2
-#define JL_ERASE_TYPE_BLOCK  3
-            u32  type;
+            u32 type;
         } erase;
 
         struct {
             u32 address;
             u32 len;
-            u16 crc;
-        } crc;
+            u32 block_size;
+        } crc_list;
 
         struct {
-            u32 address;
-            u32 len;
-            u32 block_size;
+            u8 file_name[16];
+            u8 mode;
+        }  init;
+    };
+} __attribute__((packed)) JL_SECTOR_COMMAND_ITEM;
+
+//设备结构体
+typedef struct {
+    u8 syncdata0;
+    u8 syncdata1;
+    u16 cmd_len;
+    u8 cmd;
+    u8 rsp_status;
+    union {
+        struct {
             u16 crc[0];
         } crc_list;
 
@@ -61,10 +112,8 @@ typedef struct {
             u32 upgrade_addr;
             u32 upgrade_len;
             u32 upgrade_eoffset;
-            u8 file_name[16];
-            u16 flash_alignsize;
-            u8 mode;
-        } init;
+            u32 flash_alignsize;
+        }  init;
 
         struct {
             u8 vid[4];
@@ -72,9 +121,7 @@ typedef struct {
             u32 sdk_id;
         } device_check;
     };
-
-} JL_SECTOR_COMMAND_ITEM;
-
+} __attribute__((packed)) JL_SECTOR_COMMAND_DEV_ITEM;
 
 extern void chip_reset(void);
 extern u32 get_uboot_offset(void);
@@ -92,9 +139,11 @@ extern void ut_devic_mode_close(void);
 extern u16 jlfs_get_app_dir_head_datacrc(void);
 extern u32 jlfs_get_flash_eoffset_size(void);
 
-static u16 communication_key;
+/* static u16 communication_key; */
 
 JL_SECTOR_COMMAND_ITEM *g_ops;
+JL_SECTOR_COMMAND_DEV_ITEM *dev_g_ops;
+u8 dev_g_buf[64] __attribute__((aligned(4))); //这个buf限制64是为了兼容usb
 
 volatile int new_data;
 static u32 flash_alignsize;
@@ -110,14 +159,60 @@ void set_new_data_flag(int flag)
     new_data = flag;
 }
 
-void enc_data(u8 *p, u32 l)
+//10进制，注意要与上位机一致，不然无法升级
+u32 communication_key = 12345678;
+//加解密
+void enc_dec_data(u8 *buf, u32 len)
 {
-    if (communication_key) {
-        for (int i = 0; i < l; i += 2) {
-            p[i] ^= communication_key;
-            p[i + 1] ^= communication_key >> 8;
+    u32 keyIdx = 0;
+    u8 *encKey = (u8 *)&communication_key;
+
+    for (u32 i = 0; i < len; ++i, ++keyIdx) {
+        buf[i] ^= encKey[keyIdx & 0x3];
+    }
+}
+
+u8 *enc_cmd_data(u8 *buf, u32 len)
+{
+    u32 i;
+    u16 data_crc = 0;
+    u16 check_crc = 0;
+    u16 rx_cnt = 0;
+    u16 cmd_len = 0;
+
+    if (len < 2 + 2 + 2 + 2) {
+        log_info("data len not enough\n");
+        return NULL;
+    }
+
+    log_info("+++++decode_len:%d\n", len);
+    /* put_buf(buf, len); */
+
+    for (i = 0; i < len - 7; i++) {
+        if (buf[i] == SYNC_MARK0 && buf[i + 1] == SYNC_MARK1) { //检测头
+            cmd_len = *((u16 *)(buf + i + 2)); //获取cmd的长度
+            if (i + 2 + 2 + cmd_len + 2 > len) { //数据包长度
+                log_info("cmd len too long\n");
+                return NULL;
+            }
+
+            data_crc |= *(buf + i + 2 + 2 + cmd_len);
+            data_crc |= (*(buf + i + 2 + 2 + cmd_len + 1)) << 8; //获取传下来的crc
+            check_crc = chip_crc16(&buf[i], 2 + 2 + cmd_len); //本地校验crc
+            if (data_crc == check_crc) {
+                /* printf("enc cmd ok\n"); */
+                //对数据体解码
+                enc_dec_data(buf + i + 4, cmd_len);
+
+                return &(buf[i]);  //正常确则返回指令包地址
+            } else {
+                log_info("cmd crc err,crc:0x%x,check:0x%x\n", data_crc, check_crc);
+                return NULL;
+            }
         }
     }
+    log_info("cnt not find mark\n");
+    return NULL;
 }
 
 static u32 recv_data_buf[64 / 4];
@@ -130,11 +225,10 @@ void *recv_new_data()
 #if (__HID_UART_MODE_SEL==0)
         data_p = (void *)recv_data_buf;
         u32 rx_len = usb_g_intr_read(0, HID_EP_OUT, (u8 *)data_p, 64, 0);
-        enc_data((u8 *)data_p, 64);
+        data_p =  enc_cmd_data((u8 *)data_p, rx_len);
 #else
-        data_p = (void *)get_ut_up_buf_p();
         u32 rx_len = get_ut_up_rxlen();
-        enc_data((u8 *)data_p, rx_len);
+        data_p =  enc_cmd_data((u8 *)get_ut_up_buf_p(), rx_len);
 #endif
         /* log_info_hexdump((u8 *)data_p, rx_len); */
     }
@@ -146,9 +240,8 @@ void upgrade_rsp(void *p, u32 len)
 {
     u8 tx[64];
     memcpy(tx, p, len);
-    enc_data(tx, 64);
-    /* log_info("ACK:\n"); */
-    /* log_info_hexdump(tx, 64); */
+    log_info("+++++ACK_len:0x%x\n", len);
+    log_info_hexdump((u8 *)tx, len);
 #if (__HID_UART_MODE_SEL==0)
     hid_tx_data(NULL, tx, sizeof(tx));
 #else
@@ -156,39 +249,51 @@ void upgrade_rsp(void *p, u32 len)
 #endif
 }
 
-void jl_su_ex_key()
+//设置余下协议部分及回复
+void set_remain_and_upgrade_rsp(u8 cmd)
 {
-    u16 key = chip_crc16_with_init(g_ops->ex_key.data, g_ops->ex_key.data_length, g_ops->rand) & 0xf0f0;
+    u16 crc16_len;
+    u16 crc16_da;
+    dev_g_ops->syncdata0 = 0xAA;
+    dev_g_ops->syncdata1 = 0x55;          //设置标志
+    crc16_len = 1 + 1 + 2 + dev_g_ops->cmd_len; //数据长度
+    dev_g_ops->cmd = cmd;
 
-    log_info("key %x\n", key);
-    for (int i = 0; i < g_ops->ex_key.data_length; i++) {
-        g_ops->ex_key.data[i] = get_random();
-    }
+    //对数据体加密
+    enc_dec_data(((u8 *)dev_g_ops) + 4, dev_g_ops->cmd_len);
 
-    g_ops->rand = get_random();
+    crc16_da = chip_crc16(dev_g_ops, crc16_len);
+    *((u8 *)dev_g_ops + crc16_len) = crc16_da & 0xff;
+    *((u8 *)dev_g_ops + crc16_len + 1) = crc16_da >> 8;
 
-    key |= chip_crc16_with_init(g_ops->ex_key.data, g_ops->ex_key.data_length, g_ops->rand) & 0x0f0f;
-
-    log_info("key %x\n", key);
-    upgrade_rsp(g_ops, 64);
-    communication_key = key;
-    log_info("%s() %x\n", __func__, communication_key);
+    upgrade_rsp(dev_g_ops, crc16_len + 2); //总长度为数据长度+crc16长度
 }
+
+
 void jl_su_device_init()
 {
+    u16 crc16_len = 0;
+    u16 crc16 = 0;
     u8 err = jlfs_fopen_by_name(&upgrade_file, (const char *)g_ops->init.file_name, g_ops->init.mode);
     if (err) {
         log_info("file open error !\n");
-        memset(&g_ops->init, 0, sizeof(g_ops->init));
+        memset(&dev_g_ops->init, 0, sizeof(dev_g_ops->init));
+        dev_g_ops->rsp_status = JL_SU_CMD_OTHER_ERROR;
     } else {
         log_info("%s() 0x%x %d\n", __func__, upgrade_file.addr, upgrade_file.size);
-        g_ops->init.upgrade_addr = upgrade_file.addr;
-        g_ops->init.upgrade_len = upgrade_file.size;
-        g_ops->init.upgrade_eoffset = jlfs_get_flash_eoffset_size();
-        g_ops->init.flash_alignsize = jlfs_get_flash_align_size();
+        dev_g_ops->init.upgrade_addr = upgrade_file.addr;
+        dev_g_ops->init.upgrade_len = upgrade_file.size;
+        dev_g_ops->init.upgrade_eoffset = jlfs_get_flash_eoffset_size();
+        dev_g_ops->init.flash_alignsize = jlfs_get_flash_align_size();
+
+        dev_g_ops->rsp_status = JL_SU_CMD_SUSS;
     }
-    upgrade_rsp(g_ops, sizeof(*g_ops));
+    dev_g_ops->cmd_len = 1 + 1 + 4 + 4 + 4 + 4; //根据协议计算长度,不能用sizeof
+    /* printf("cmd LEN:%d\n",dev_g_ops->cmd_len); */
+
+    set_remain_and_upgrade_rsp(JL_SU_CMD_DEVICE_INIT);
 }
+
 void jl_su_flash_crc()
 {
     u32 block_count = g_ops->crc_list.len / g_ops->crc_list.block_size;
@@ -201,11 +306,14 @@ void jl_su_flash_crc()
     jlfs_fseek(&upgrade_file, g_ops->crc_list.address);
     for (int i = 0; i < block_count; i++) {
         jlfs_fread(&upgrade_file, p, l);
-        g_ops->crc_list.crc[i] = chip_crc16(p, l);
-        log_info("%x ", g_ops->crc_list.crc[i]);
+        dev_g_ops->crc_list.crc[i] = chip_crc16(p, l);
+        log_info("%x ", dev_g_ops->crc_list.crc[i]);
     }
     log_info("\n");
-    upgrade_rsp(g_ops, 16 + block_count * 2);
+    dev_g_ops->rsp_status = JL_SU_CMD_SUSS;
+    dev_g_ops->cmd_len = 1 + 1 + block_count * 2;
+
+    set_remain_and_upgrade_rsp(JL_SU_CMD_FLASH_CRC);
 }
 void jl_su_erase()
 {
@@ -230,48 +338,47 @@ void jl_su_erase()
     }
 
     u32 r = jlfs_erase(&upgrade_file, len);
-    g_ops->erase.type = r;
-    upgrade_rsp(g_ops, sizeof(*g_ops));
+
+    if (r == 0) {
+        dev_g_ops->rsp_status = JL_SU_CMD_ERASE_ERROR;
+    } else {
+        dev_g_ops->rsp_status = JL_SU_CMD_SUSS;
+    }
+    dev_g_ops->cmd_len = 1 + 1;
+
+    set_remain_and_upgrade_rsp(JL_SU_CMD_ERASE);
 }
 
-enum {
-    JL_SU_CMD_SUSS,
-    JL_SU_CMD_CRC_ERROR,
-    JL_SU_CMD_SDK_ID_ERROR,
-};
 
 void jl_su_write_flash()
 {
-    /* log_info("%s() address %x %d\n", __func__, g_ops->write.address, g_ops->write.data_length); */
-    u16 crc = chip_crc16(g_ops->write.data, g_ops->write.data_length);
-    if (crc != g_ops->write.data_crc) {
-        g_ops->rsp_status = JL_SU_CMD_CRC_ERROR;
+    jlfs_fseek(&upgrade_file, g_ops->write.address);
+    u32 r = jlfs_write(&upgrade_file, g_ops->write.data, g_ops->write.data_length);
+    if (r != g_ops->write.data_length) {
+        dev_g_ops->rsp_status = JL_SU_CMD_WRITE_ERROR;
     } else {
-        jlfs_fseek(&upgrade_file, g_ops->write.address);
-        u32 r = jlfs_write(&upgrade_file, g_ops->write.data, g_ops->write.data_length);
-        if (r != g_ops->write.data_length) {
-            g_ops->rsp_status = JL_SU_CMD_CRC_ERROR;
-        } else {
-            g_ops->rsp_status = JL_SU_CMD_SUSS;
-        }
+        dev_g_ops->rsp_status = JL_SU_CMD_SUSS;
     }
-    upgrade_rsp(g_ops, sizeof(*g_ops));
+    dev_g_ops->cmd_len = 1 + 1;
+    set_remain_and_upgrade_rsp(JL_SU_CMD_WRITE);
 }
 void jl_su_devcie_check()
 {
-    g_ops->rsp_status = JL_SU_CMD_SUSS;
     if (g_ops->device_check.sdk_id == 0x12345678) { //用户自定义，可以用于区分产品类型，避免烧写错误固件
-        jlfs_get_pid_vid(g_ops->device_check.pid, g_ops->device_check.vid);
+        jlfs_get_pid_vid(dev_g_ops->device_check.pid, dev_g_ops->device_check.vid);
+        dev_g_ops->rsp_status = JL_SU_CMD_SUSS;
     } else {
-        g_ops->rsp_status = JL_SU_CMD_SDK_ID_ERROR;
+        dev_g_ops->rsp_status = JL_SU_CMD_SDK_ID_ERROR;
     }
 
-    upgrade_rsp(g_ops, sizeof(*g_ops));
+    dev_g_ops->device_check.sdk_id = 0x12345678; //设备id
+    dev_g_ops->cmd_len = 1 + 1 + 4 + 16 + 4;
+    set_remain_and_upgrade_rsp(JL_SU_CMD_DEVICE_CHECK);
 }
 
 void upgrade_loop()
 {
-    communication_key = 0;
+    dev_g_ops = (JL_SECTOR_COMMAND_DEV_ITEM *)dev_g_buf;//回复buf 64大小是后面需要兼容usb
 
     while (1) {
 
@@ -283,30 +390,34 @@ void upgrade_loop()
         }
 
         switch (g_ops->cmd) {
-        case JL_SU_CMD_EX_KEY:
-            jl_su_ex_key();
-            break;
         case JL_SU_CMD_DEVICE_INIT:
+            log_info("JL_SU_CMD_DEVICE_INIT\n");
             jl_su_device_init();
             break;
         case JL_SU_CMD_FLASH_CRC:
+            log_info("JL_SU_CMD_FLASH_CRC\n");
             jl_su_flash_crc();
             break;
         case JL_SU_CMD_WRITE:
+            log_info("JL_SU_CMD_WRITE:\n");
             jl_su_write_flash();
             break;
         case JL_SU_CMD_ERASE:
+            log_info("JL_SU_CMD_ERASE\n");
             jl_su_erase();
             break;
         case JL_SU_CMD_DEVICE_CHECK:
+            log_info("JL_SU_CMD_DEVICE_CHECK\n");
             jl_su_devcie_check();
             break;
         case JL_SU_CMD_REBOOT:
-            log_info("reboot\n");
+            log_info("JL_SU_CMD_REBOOT\n");
             ut_devic_mode_close();
             usb_disable_for_ota();
-
-            /* chip_reset(); */
+#if(USE_UPGRADE_MAGIC)
+            uboot_set_uart_upgrade_succ();
+#endif
+            /* chip_reset(); */ //可以复位，也可以直接跑去app
             return;
         }
         g_ops = NULL;
@@ -375,4 +486,36 @@ u8 user_check_upgrade(u32 jlfs_err)
 
     upgrade_loop();
     return 0;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//通过检测标志位进入升级，可以由app层跳转过来
+//详细见文档说明
+extern u32 nvram_list[];
+#define NV_RAM_LIST_ADDR  (nvram_list)
+//数据要与升级前匹配 start ok
+static const u8 uboot_uart_upgrade_mode_magic[8] = {
+    'u', 'b', 'o', 'o', 't', 0x5a, 's', 't',
+};
+
+static const u8 uboot_uart_upgrade_succ_magic[8] = {
+    'u', 'b', 'o', 'o', 't', 0xa5, 'o', 'k',
+};
+
+
+u8 uboot_check_upgrade_magic()
+{
+    if (memcmp((char *)NV_RAM_LIST_ADDR, uboot_uart_upgrade_mode_magic, sizeof(uboot_uart_upgrade_mode_magic)) == 0) {
+        memset((char *)NV_RAM_LIST_ADDR, 0, sizeof(uboot_uart_upgrade_mode_magic));
+        log_info("\n****************** check_upgrade flag ok  *****************\n\n");
+        return 1;
+    }
+    return 0;
+}
+
+void uboot_set_uart_upgrade_succ()
+{
+    memcpy((char *)NV_RAM_LIST_ADDR, uboot_uart_upgrade_succ_magic, sizeof(uboot_uart_upgrade_succ_magic));
 }

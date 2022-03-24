@@ -258,3 +258,4 @@
   _MASK_MEM_SIZE = ABSOLUTE(0x308);
 
   HWI_Install = ABSOLUTE(0x10cb34);
+  nvram_list = ABSOLUTE(0x28800);

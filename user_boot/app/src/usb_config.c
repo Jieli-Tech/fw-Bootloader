@@ -3,7 +3,12 @@
 #include "gpio.h"
 #include "printf.h"
 
-#define     usb_log_e   log_info
+#define LOG_TAG_CONST       UPGRADE
+#define LOG_TAG             "[usb]"
+#define LOG_ERROR_ENABLE
+#define LOG_DEBUG_ENABLE
+#define LOG_INFO_ENABLE
+#include "log.h"
 
 #define     MAX_EP_TX   5
 #define     MAX_EP_RX   5
@@ -80,13 +85,13 @@ void usb_isr(const usb_dev usb_id)
     intr_rx &= intr_rxe;
 
     if (intr_usb & INTRUSB_SUSPEND) {
-        usb_log_e("usb suspend");
+        log_error("usb suspend");
 #if USB_SUSPEND_RESUME
         usb_phy_suspend(usb_id);
 #endif
     }
     if (intr_usb & INTRUSB_RESET_BABBLE) {
-        usb_log_e("usb reset");
+        log_error("usb reset");
         usb_reset_interface(usb_device);
 
 #if USB_SUSPEND_RESUME
@@ -96,7 +101,7 @@ void usb_isr(const usb_dev usb_id)
     }
 
     if (intr_usb & INTRUSB_RESUME) {
-        usb_log_e("usb resume");
+        log_error("usb resume");
 #if USB_SUSPEND_RESUME
         usb_phy_resume(usb_id);
 #endif
@@ -217,7 +222,7 @@ u32 usb_config(const usb_dev usb_id)
         usb_config_var = &_usb_config_var;
 #endif
     }
-    usb_log_e("zalloc: usb_config_var = %x\n", usb_config_var);
+    log_debug("zalloc: usb_config_var = %x\n", usb_config_var);
 
     usb_var_init(usb_id, &(usb_config_var->usb_ep_addr));
     usb_setup_init(usb_id, &(usb_config_var->usb_setup), usb_config_var->usb_setup_buffer);
@@ -226,12 +231,12 @@ u32 usb_config(const usb_dev usb_id)
 
 u32 usb_release(const usb_dev usb_id)
 {
-    usb_log_e("free zalloc: usb_config_var = %x\n", usb_id, usb_config_var);
+    log_debug("free zalloc: usb_config_var = %x\n", usb_id, usb_config_var);
     usb_var_init(usb_id, NULL);
     usb_setup_init(usb_id, NULL, NULL);
 #if USB_MALLOC_ENABLE
     if (usb_config_var) {
-        usb_log_e("free: usb_config_var = %x\n", usb_config_var);
+        log_debug("free: usb_config_var = %x\n", usb_config_var);
         free(usb_config_var);
     }
 #endif
