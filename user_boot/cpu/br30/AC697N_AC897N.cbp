@@ -11,16 +11,17 @@
 <Option type="1" />
 <Option compiler="pi32v2_r3_lto_compiler" />
 <Compiler>
+<Add option="-Werror=implicit-function-declaration" />
+<Add option="-Werror=macro-redefined" />
+<Add option="-Werror=return-type" />
+<Add option="-Werror=int-conversion" />
 <Add option="-integrated-as" />
 <Add option="-fallow-pointer-null" />
 <Add option="-fno-common" />
 <Add option="-flto" />
 <Add option="-Oz" />
-<Add option="-Werror=implicit-function-declaration" />
-<Add option="-Werror=macro-redefined" />
-<Add option="-Werror=return-type" />
-<Add option="-Werror=int-conversion" />
 <Add option="-Wno-format" />
+<Add option="-Wno-main-return-type" />
 <Add option="-Wno-unused-value" />
 <Add option="-Wno-unused-function" />
 <Add option="-Wno-unused-comparison" />
@@ -30,6 +31,7 @@
 <Add option="-Wno-invalid-noreturn" />
 <Add option="-Wno-visibility" />
 <Add option="-Wno-integer-overflow" />
+<Add option="-g" />
 <Add option="-D__CPU_br30" />
 <Add option="-DENTRY_ADDR=0x2000" />
 <Add option="-D__USE_MASK_API__" />
@@ -47,10 +49,6 @@
 <Add directory="../../include_lib/upgrade" />
 </Compiler>
 <Linker>
-<Add option="--gc-sections" />
-<Add option="--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp" />
-<Add option="-M=../../cpu/br30/output/map.txt" />
-<Add option="-T../../cpu/br30/output/ram.ld" />
 <Add option="--plugin-opt=-inline-threshold=5" />
 <Add option="--plugin-opt=-enable-ipra=true" />
 <Add option="--plugin-opt=-pi32v2-always-use-itblock" />
@@ -60,6 +58,11 @@
 <Add option="--plugin-opt=-pi32v2-enable-rep-memop=true" />
 <Add option="--plugin-opt=mcpu=r3" />
 <Add option="--plugin-opt=save-temps" />
+<Add option="--dont-complain-call-overflow" />
+<Add option="--gc-sections" />
+<Add option="--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp" />
+<Add option="-M=../../cpu/br30/output/map.txt" />
+<Add option="-T../../cpu/br30/output/ram.ld" />
 <Add option="--start-group" />
 <Add option="--whole-archive" />
 <Add option="../../include_lib/liba/br30/uboot.a" />
@@ -78,6 +81,7 @@
 <Unit filename="../../app/inc/user.h" />
 <Unit filename="../../app/src/descriptor.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/hid.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../app/src/log_config.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/main.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/user.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../cpu/br30/delay.c"><Option compilerVer="CC"/></Unit>
@@ -86,6 +90,7 @@
 <Unit filename="../../include_lib/common/common.h" />
 <Unit filename="../../include_lib/common/dec.h" />
 <Unit filename="../../include_lib/common/device_errno.h" />
+<Unit filename="../../include_lib/common/log.h" />
 <Unit filename="../../include_lib/common/printf.h" />
 <Unit filename="../../include_lib/common/typedef.h" />
 <Unit filename="../../include_lib/cpu/br30/clock.h" />
@@ -97,6 +102,7 @@
 <Unit filename="../../include_lib/cpu/br30/io_imap.h" />
 <Unit filename="../../include_lib/cpu/br30/io_omap.h" />
 <Unit filename="../../include_lib/cpu/br30/irq.h" />
+<Unit filename="../../include_lib/cpu/br30/mask_api.h" />
 <Unit filename="../../include_lib/cpu/br30/setup.h" />
 <Unit filename="../../include_lib/cpu/br30/uart.h" />
 <Unit filename="../../include_lib/cpu/br30/usb.h" />

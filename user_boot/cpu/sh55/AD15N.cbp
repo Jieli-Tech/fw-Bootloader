@@ -17,6 +17,7 @@
 <Add option="-flto" />
 <Add option="-Oz" />
 <Add option="-Wno-format" />
+<Add option="-Wno-main-return-type" />
 <Add option="-Wno-unused-value" />
 <Add option="-Wno-unused-function" />
 <Add option="-Wno-unused-comparison" />
@@ -26,9 +27,11 @@
 <Add option="-Wno-invalid-noreturn" />
 <Add option="-Wno-visibility" />
 <Add option="-Wno-integer-overflow" />
+<Add option="-g" />
 <Add option="-D__CPU_sh55" />
 <Add option="-DENTRY_ADDR=0" />
 <Add option="-D__USE_MASK_API__" />
+<Add option="-D__ZE_FLASH_CAM_PATCH" />
 <Add option="-D__HID_UART_MODE_SEL=1" />
 <Add directory="../../app" />
 <Add directory="../../app/inc" />
@@ -63,6 +66,7 @@
 <Unit filename="../../app/inc/user.h" />
 <Unit filename="../../app/src/descriptor.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/hid.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../app/src/log_config.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/main.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/user.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../cpu/sh55/delay.c"><Option compilerVer="CC"/></Unit>
@@ -71,6 +75,7 @@
 <Unit filename="../../include_lib/common/common.h" />
 <Unit filename="../../include_lib/common/dec.h" />
 <Unit filename="../../include_lib/common/device_errno.h" />
+<Unit filename="../../include_lib/common/log.h" />
 <Unit filename="../../include_lib/common/printf.h" />
 <Unit filename="../../include_lib/common/typedef.h" />
 <Unit filename="../../include_lib/cpu/sh55/clock.h" />
@@ -80,6 +85,7 @@
 <Unit filename="../../include_lib/cpu/sh55/delay.h" />
 <Unit filename="../../include_lib/cpu/sh55/gpio.h" />
 <Unit filename="../../include_lib/cpu/sh55/irq.h" />
+<Unit filename="../../include_lib/cpu/sh55/mask_api.h" />
 <Unit filename="../../include_lib/cpu/sh55/setup.h" />
 <Unit filename="../../include_lib/cpu/sh55/uart.h" />
 <Unit filename="../../include_lib/cpu/sh55/usb.h" />
