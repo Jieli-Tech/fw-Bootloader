@@ -15,7 +15,7 @@ set ELFFILE=uboot.elf
 
 
 %OBJCOPY% -O binary -j .text %ELFFILE% uboot.bin
-%OBJCOPY% -O binary -j .uboot.version %ELFFILE% uboot.version
+%OBJCOPY% -O binary -j .version %ELFFILE% uboot.version
 
 set run_addr=0x2000
 set load_addr=0x6000

@@ -28,6 +28,7 @@ RAM0_END 		= UPDATA_BEG;
 MEMORY
 {
 	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 18k
+    version_ram :   ORIGIN = 0x8000000,  LENGTH = 128
 #if SUPPORT_BP_DEBUG == 1
 	bp_ram(rwx) : ORIGIN = RAM0_BEG,  LENGTH = RAM0_SIZE
 #endif /* #if SUPPORT_BP_DEBUG == 1 */
@@ -66,6 +67,13 @@ SECTIONS
 
     bss_begin  = ADDR(.bss);
     bss_size   = SIZEOF(.bss);
+
+    . = ORIGIN(version_ram);
+    .version ALIGN(32) (NOLOAD):
+    {
+        *(.uboot.version)
+        . = ALIGN(32);
+    } > version_ram
 
     /*SUPPORT_BP_EXTENSIONS */
 #if SUPPORT_BP_DEBUG == 1

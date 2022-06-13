@@ -15,7 +15,7 @@ set ELFFILE=uboot.elf
 
 
 %OBJCOPY% -O binary -j .text %ELFFILE% uboot.bin
-%OBJCOPY% -O binary -j .uboot.version %ELFFILE% uboot.version
+%OBJCOPY% -O binary -j .version %ELFFILE% uboot.version
 
 BankLink.exe 0x4000 uboot.bin uboot.boot 
 

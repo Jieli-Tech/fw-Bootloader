@@ -9,6 +9,7 @@
 MEMORY
 {
 	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 20k
+    version_ram :   ORIGIN = 0x8000000,  LENGTH = 128
 #ifdef SUPPORT_BP_DEBUG
 	bp_ram(rwx) : ORIGIN = BP_BEG,  LENGTH = BP_SIZE
 #endif/* #ifdef SUPPORT_BP_DEBUG */
@@ -48,6 +49,12 @@ SECTIONS
     bss_begin  = ADDR(.bss);
     bss_size   = SIZEOF(.bss);
 
+    . = ORIGIN(version_ram);
+    .version ALIGN(32) (NOLOAD):
+    {
+        *(.uboot.version)
+        . = ALIGN(32);
+    } > version_ram
 
 /* 断点功能初始化 */
 #ifdef SUPPORT_BP_DEBUG
