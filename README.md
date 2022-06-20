@@ -1,7 +1,7 @@
-# fw-AC63_Bootloader
-Customized bootloader for AC63 series
+# fw-Bootloader
+Customized bootloader for JL series(AC63/...)
 
-A63 系列user boot固件程序
+JL 系列user boot固件程序
 
 本仓库包含user boot release 版本代码，线下线上支持同步发布，支持用户进行自定义串口升级.
 
