@@ -10,7 +10,7 @@ JL 系列user boot固件程序
 快速开始
 ------------
 
-欢迎使用杰理开源项目，在开始进入项目之前，请详细阅读SDK 介绍文档 [说明文档](doc/user uboot demo使用说明v1.1.1.pdf)
+欢迎使用杰理开源项目，在开始进入项目之前，请详细阅读SDK 介绍文档 [说明文档](doc/user_uboot_demo使用说明v1.1.1.pdf)
 
 工具链
 ------------
@@ -20,7 +20,7 @@ JL 系列user boot固件程序
 介绍文档
 ------------
 
-SDK 简介 :见 [说明文档](doc/user uboot demo使用说明v1.1.1.pdf) 
+SDK 简介 :见 [说明文档](doc/user_uboot_demo使用说明v1.1.1.pdf) 
 
 
 SDK与BootLoader系列对应说明
@@ -50,7 +50,7 @@ SDK 同时支持Codeblock 和 Make 编译环境，请确保编译前已经搭建
 硬件环境
 -------------
 
-与标准SDK一致，生成的uboot.boot要添加到原SDK下载目录调试，流程见 [说明文档](doc/user uboot demo使用说明v1.1.1.pdf) 
+与标准SDK一致，生成的uboot.boot要添加到原SDK下载目录调试，流程见 [说明文档](doc/user_uboot_demo使用说明v1.1.1.pdf) 
 
 
 免责声明
