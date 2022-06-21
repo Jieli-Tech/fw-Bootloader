@@ -44,26 +44,13 @@ void exception_analyze(u32 *sp)
 }
 #endif
 
+__attribute__((noreturn))
 int main(void)
 {
-
-#ifdef __CPU_br23
-    u32 spi_get_port();
-    if (spi_get_port() == 0) {
-        JL_PORTA->PU &= ~BIT(13);
-        JL_PORTA->PD &= ~BIT(13);
-        JL_PORTA->DIE &= ~BIT(13);
-    } else {
-        JL_PORTD->PU &= ~BIT(3);
-        JL_PORTD->PD &= ~BIT(3);
-        JL_PORTD->DIE &= ~BIT(3);
-    }
-#endif // __CPU_br23
 
 #ifdef __DEBUG
     uboot_mask_init(putchar, exception_analyze);
 #endif
-
 
 #ifdef __DEBUG
     u8 val[16];
@@ -132,7 +119,7 @@ int main(void)
 __boot_failed:
 
     while (1) {
-        wdt_clr();
+        asm("nop");
     }
 
     return 0;

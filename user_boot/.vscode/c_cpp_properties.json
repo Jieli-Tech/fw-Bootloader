@@ -12,6 +12,7 @@
                 "__MASK_FS_V2",
                 "__MASK_LZ4",
                 "__UPDATE_NEED_SFC",
+                "__ZE_FLASH_CAM_PATCH",
                 "__HID_UART_MODE_SEL=1",
                 "__Q32S__"
             ],
@@ -38,6 +39,7 @@
                 "__CPU_sh54",
                 "ENTRY_ADDR=0x1000",
                 "__USE_MASK_API__",
+                "__ZE_FLASH_CAM_PATCH",
                 "__HID_UART_MODE_SEL=1",
                 "__USE_MASK_PRINTF",
                 "__PI32__"
@@ -90,9 +92,65 @@
             "compilerPath": "C:/JL/pi32/bin/clang.exe",
             "cppStandard": "c++11",
             "defines": [
+                "__CPU_br28",
+                "ENTRY_ADDR=0x120000",
+                "__USE_MASK_API__",
+                "__MASK_LZ4",
+                "__USE_MASK_PRINTF",
+                "__HID_UART_MODE_SEL=1",
+                "__PI32V2__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/br28",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/pi32v2-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "br28_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
+                "__CPU_wl82",
+                "ENTRY_ADDR=0x1c02000",
+                "__USE_MASK_API__",
+                "__USE_MASK_PRINTF",
+                "__HID_UART_MODE_SEL=1",
+                "__PI32V2__"
+            ],
+            "includePath": [
+                "${workspaceFolder}/app",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/include_lib",
+                "${workspaceFolder}/include_lib/common",
+                "${workspaceFolder}/include_lib/drivers",
+                "${workspaceFolder}/include_lib/cpu/wl82",
+                "${workspaceFolder}/include_lib/drivers/norflash",
+                "${workspaceFolder}/include_lib/fs/jlfs",
+                "${workspaceFolder}/include_lib/upgrade",
+                "C:/JL/pi32/pi32v2-include"
+            ],
+            "intelliSenseMode": "clang-x86",
+            "name": "wl82_uboot"
+        },
+        {
+            "cStandard": "c99",
+            "compilerPath": "C:/JL/pi32/bin/clang.exe",
+            "cppStandard": "c++11",
+            "defines": [
                 "__CPU_br23",
                 "ENTRY_ADDR=0x4000",
                 "__USE_MASK_API__",
+                "__ZE_FLASH_CAM_PATCH",
                 "__HID_UART_MODE_SEL=1",
                 "__PI32V2__"
             ],
@@ -149,6 +207,7 @@
                 "__USE_MASK_API__",
                 "__MASK_LZ4",
                 "__USE_MASK_PRINTF",
+                "__ZE_FLASH_CAM_PATCH",
                 "__HID_UART_MODE_SEL=0",
                 "__PI32V2__"
             ],
@@ -175,6 +234,7 @@
                 "__CPU_sh55",
                 "ENTRY_ADDR=0",
                 "__USE_MASK_API__",
+                "__ZE_FLASH_CAM_PATCH",
                 "__HID_UART_MODE_SEL=1",
                 "__PI32__"
             ],

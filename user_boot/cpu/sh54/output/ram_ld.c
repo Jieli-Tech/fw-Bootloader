@@ -5,7 +5,7 @@
 MEMORY
 {
 	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 20k
-    version_ram :   ORIGIN = 0x8000000,  LENGTH = 128
+	version_ram :   ORIGIN = 0x8000000,  LENGTH = 128
 }
 
 ENTRY(_start);
@@ -42,12 +42,12 @@ SECTIONS
     bss_begin  = ADDR(.bss);
     bss_size   = SIZEOF(.bss);
 
-    . = ORIGIN(version_ram);
+	. = ORIGIN(version_ram);
     .version ALIGN(32) (NOLOAD):
-    {
+	{
         *(.uboot.version)
         . = ALIGN(32);
-    } > version_ram
+	} > version_ram
 }
 
 

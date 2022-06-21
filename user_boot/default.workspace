@@ -4,6 +4,7 @@
 		<Project filename="cpu/bd19/bd19_uboot.cbp" />
 		<Project filename="cpu/sh54/sh54_uboot.cbp" />
 		<Project filename="cpu/br34/br34_uboot.cbp" />
+		<Project filename="cpu/br28/br28_uboot.cbp" />
 		<Project filename="cpu/wl82/wl82_uboot.cbp" />
 		<Project filename="cpu/br23/br23_uboot.cbp" />
 		<Project filename="cpu/br30/br30_uboot.cbp" />

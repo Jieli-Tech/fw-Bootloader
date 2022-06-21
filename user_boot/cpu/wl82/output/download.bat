@@ -1,7 +1,7 @@
 @echo off
 
 @echo ********************************************************************************
-@echo 			SDK BR34			
+@echo 			WL82 UBOOT			
 @echo ********************************************************************************
 @echo %date%
 
@@ -16,8 +16,8 @@ set ELFFILE=uboot.elf
 %OBJCOPY% -O binary -j .text %ELFFILE% uboot.bin
 %OBJCOPY% -O binary -j .version %ELFFILE% uboot.version
 
-set run_addr=0x2000
-set load_addr=0x6000
+set run_addr=0x1c02000
+set load_addr=0x1c20000
 set mask_addr=0x100000
 
 uboot_lz4.exe uboot.bin uboot.lz4 %run_addr% %load_addr% rom.image %mask_addr%

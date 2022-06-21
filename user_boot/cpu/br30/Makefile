@@ -25,6 +25,7 @@ RM    := rm -rf
 SYS_LIB_DIR := C:/JL/pi32/pi32v2-lib/r3
 SYS_INC_DIR := C:/JL/pi32/pi32v2-include
 EXT_CFLAGS  := # Windows 下不需要 -D__SHELL__
+export PATH:=$(TOOL_DIR);$(PATH)
 
 ## 后处理脚本
 POST_SCRIPT     := ..\..\cpu\br30\output\download.bat
@@ -38,10 +39,14 @@ LD    := lto-wrapper
 AR    := lto-ar
 MKDIR := mkdir -p
 RM    := rm -rf
+export OBJDUMP := $(TOOL_DIR)/objdump
+export OBJCOPY := $(TOOL_DIR)/objcopy
+export OBJSIZEDUMP := $(TOOL_DIR)/objsizedump
 
 SYS_LIB_DIR := $(TOOL_DIR)/../lib/r3
 SYS_INC_DIR := $(TOOL_DIR)/../include
 EXT_CFLAGS  := -D__SHELL__ # Linux 下需要这个保证正确处理 download.c
+export PATH:=$(TOOL_DIR):$(PATH)
 
 ## 后处理脚本
 POST_SCRIPT     := ../../cpu/br30/output/download.sh
@@ -252,37 +257,37 @@ endif
 $(BUILD_DIR)/%.c.o : $(ROOT_PREFIX)/%.c
 	$(info +CC $<)
 	@$(MKDIR) $(@D)
-	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT $@ $< -o $(@:.o=.d)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.S.o : $(ROOT_PREFIX)/%.S
 	$(info +AS $<)
 	@$(MKDIR) $(@D)
-	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT $@ $< -o $(@:.o=.d)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.s.o : $(ROOT_PREFIX)/%.s
 	$(info +AS $<)
 	@$(MKDIR) $(@D)
-	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	@$(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -MM -MT $@ $< -o $(@:.o=.d)
 	$(QUITE) $(CC) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.cpp.o : $(ROOT_PREFIX)/%.cpp
 	$(info +CXX $<)
 	@$(MKDIR) $(@D)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT $@ $< -o $(@:.o=.d)
 	$(QUITE) $(CXX) $(CXXFLAGS) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.cxx.o : $(ROOT_PREFIX)/%.cxx
 	$(info +CXX $<)
 	@$(MKDIR) $(@D)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT $@ $< -o $(@:.o=.d)
 	$(QUITE) $(CXX) $(CXXFLAGS) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 $(BUILD_DIR)/%.cc.o : $(ROOT_PREFIX)/%.cc
 	$(info +CXX $<)
 	@$(MKDIR) $(@D)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT "$@" $< -o $(@:.o=.d)
+	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -MM -MT $@ $< -o $(@:.o=.d)
 	$(QUITE) $(CXX) $(CXXFLAGS) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
 
 -include $(DEP_FILES)

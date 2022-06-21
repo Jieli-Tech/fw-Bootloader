@@ -9,18 +9,19 @@
 # make bd19_uboot
 # make sh54_uboot
 # make br34_uboot
+# make br28_uboot
 # make wl82_uboot
 # make br23_uboot
 # make br30_uboot
 # make br25_uboot
 # make sh55_uboot
 
-.PHONY: all clean bd19_uboot sh54_uboot br34_uboot wl82_uboot br23_uboot br30_uboot br25_uboot sh55_uboot clean_bd19_uboot clean_sh54_uboot clean_br34_uboot clean_wl82_uboot clean_br23_uboot clean_br30_uboot clean_br25_uboot clean_sh55_uboot
+.PHONY: all clean bd19_uboot sh54_uboot br34_uboot br28_uboot wl82_uboot br23_uboot br30_uboot br25_uboot sh55_uboot clean_bd19_uboot clean_sh54_uboot clean_br34_uboot clean_br28_uboot clean_wl82_uboot clean_br23_uboot clean_br30_uboot clean_br25_uboot clean_sh55_uboot
 
-all: bd19_uboot sh54_uboot br34_uboot wl82_uboot br23_uboot br30_uboot br25_uboot sh55_uboot
+all: bd19_uboot sh54_uboot br34_uboot br28_uboot wl82_uboot br23_uboot br30_uboot br25_uboot sh55_uboot
 	@echo +ALL DONE
 
-clean: clean_bd19_uboot clean_sh54_uboot clean_br34_uboot clean_wl82_uboot clean_br23_uboot clean_br30_uboot clean_br25_uboot clean_sh55_uboot
+clean: clean_bd19_uboot clean_sh54_uboot clean_br34_uboot clean_br28_uboot clean_wl82_uboot clean_br23_uboot clean_br30_uboot clean_br25_uboot clean_sh55_uboot
 	@echo +CLEAN DONE
 
 bd19_uboot:
@@ -40,6 +41,12 @@ br34_uboot:
 
 clean_br34_uboot:
 	$(MAKE) -C cpu/br34 -f Makefile clean
+
+br28_uboot:
+	$(MAKE) -C cpu/br28 -f Makefile
+
+clean_br28_uboot:
+	$(MAKE) -C cpu/br28 -f Makefile clean
 
 wl82_uboot:
 	$(MAKE) -C cpu/wl82 -f Makefile

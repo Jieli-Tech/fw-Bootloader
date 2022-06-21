@@ -2,15 +2,19 @@
 <CodeBlocks_project_file>
 <FileVersion major="1" minor="6" />
 <Project>
-<Option title="sh54_uboot" />
-<Option compiler="pi32_lto_compiler" />
+<Option title="br28_uboot" />
+<Option compiler="pi32v2_r3_lto_compiler" />
 <Build>
 <Target title="Release">
-<Option output="../../cpu/sh54/output/uboot.elf" prefix_auto="0" extension_auto="0" />
+<Option output="../../cpu/br28/output/uboot.elf" prefix_auto="0" extension_auto="0" />
 <Option object_output="obj/Release/" />
 <Option type="1" />
-<Option compiler="pi32_lto_compiler" />
+<Option compiler="pi32v2_r3_lto_compiler" />
 <Compiler>
+<Add option="-Werror=implicit-function-declaration" />
+<Add option="-Werror=macro-redefined" />
+<Add option="-Werror=return-type" />
+<Add option="-Werror=int-conversion" />
 <Add option="-integrated-as" />
 <Add option="-fallow-pointer-null" />
 <Add option="-fno-common" />
@@ -28,38 +32,48 @@
 <Add option="-Wno-visibility" />
 <Add option="-Wno-integer-overflow" />
 <Add option="-g" />
-<Add option="-D__CPU_sh54" />
-<Add option="-DENTRY_ADDR=0x1000" />
+<Add option="-D__CPU_br28" />
+<Add option="-DENTRY_ADDR=0x120000" />
 <Add option="-D__USE_MASK_API__" />
-<Add option="-D__ZE_FLASH_CAM_PATCH" />
-<Add option="-D__HID_UART_MODE_SEL=1" />
+<Add option="-D__MASK_LZ4" />
 <Add option="-D__USE_MASK_PRINTF" />
+<Add option="-D__HID_UART_MODE_SEL=1" />
 <Add directory="../../app" />
 <Add directory="../../app/inc" />
 <Add directory="../../include_lib" />
 <Add directory="../../include_lib/common" />
 <Add directory="../../include_lib/drivers" />
-<Add directory="../../include_lib/cpu/sh54" />
+<Add directory="../../include_lib/cpu/br28" />
 <Add directory="../../include_lib/drivers/norflash" />
 <Add directory="../../include_lib/fs/jlfs" />
 <Add directory="../../include_lib/upgrade" />
 </Compiler>
 <Linker>
+<Add option="--plugin-opt=-inline-threshold=5" />
+<Add option="--plugin-opt=-enable-ipra=true" />
+<Add option="--plugin-opt=-pi32v2-always-use-itblock" />
+<Add option="--plugin-opt=-pi32v2-merge-max-offset=64" />
+<Add option="--plugin-opt=-global-merge-on-const" />
+<Add option="--plugin-opt=-pi32v2-enable-simd=true" />
+<Add option="--plugin-opt=-pi32v2-enable-rep-memop=true" />
+<Add option="--plugin-opt=mcpu=r3" />
+<Add option="--plugin-opt=save-temps" />
+<Add option="--dont-complain-call-overflow" />
 <Add option="--gc-sections" />
 <Add option="--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp" />
-<Add option="-M=../../cpu/sh54/output/map.txt" />
-<Add option="-T../../cpu/sh54/output/ram.ld" />
+<Add option="-M=../../cpu/br28/output/map.txt" />
+<Add option="-T../../cpu/br28/output/ram.ld" />
 <Add option="--start-group" />
 <Add option="--whole-archive" />
-<Add option="../../include_lib/liba/sh54/uboot.a" />
+<Add option="../../include_lib/liba/br28/uboot.a" />
 <Add option="--no-whole-archive" />
 <Add option="--end-group" />
-<Add library="C:\JL\pi32\lib\libm.a" />
+<Add library="C:\JL\pi32\pi32v2-lib\r3\libm.a" />
 </Linker>
 <ExtraCommands>
-<Add before="$compiler $options $includes -D__LD__ -E -P ..\..\cpu\sh54\output\ram_ld.c -o ..\..\cpu\sh54\output\ram.ld" />
+<Add before="$compiler $options $includes -D__LD__ -E -P ..\..\cpu\br28\output\ram_ld.c -o ..\..\cpu\br28\output\ram.ld" />
 <Mode before="always" />
-<Add after="..\..\cpu\sh54\output\download.bat uboot" />
+<Add after="..\..\cpu\br28\output\download.bat uboot" />
 <Mode after="always" />
 </ExtraCommands>
 </Target>
@@ -69,11 +83,10 @@
 <Unit filename="../../app/src/hid.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/log_config.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/main.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../app/src/usb_config.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../app/src/usb_device.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/user.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../cpu/sh54/delay.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../cpu/sh54/uart.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../cpu/br28/debug.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../cpu/br28/delay.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../cpu/br28/uart.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../include_lib/common/atomic.h" />
 <Unit filename="../../include_lib/common/common.h" />
 <Unit filename="../../include_lib/common/dec.h" />
@@ -81,18 +94,21 @@
 <Unit filename="../../include_lib/common/log.h" />
 <Unit filename="../../include_lib/common/printf.h" />
 <Unit filename="../../include_lib/common/typedef.h" />
-<Unit filename="../../include_lib/cpu/sh54/clock.h" />
-<Unit filename="../../include_lib/cpu/sh54/cpu.h" />
-<Unit filename="../../include_lib/cpu/sh54/crc.h" />
-<Unit filename="../../include_lib/cpu/sh54/csfr.h" />
-<Unit filename="../../include_lib/cpu/sh54/delay.h" />
-<Unit filename="../../include_lib/cpu/sh54/gpio.h" />
-<Unit filename="../../include_lib/cpu/sh54/irq.h" />
-<Unit filename="../../include_lib/cpu/sh54/mask_api.h" />
-<Unit filename="../../include_lib/cpu/sh54/setup.h" />
-<Unit filename="../../include_lib/cpu/sh54/uart.h" />
-<Unit filename="../../include_lib/cpu/sh54/usb.h" />
-<Unit filename="../../include_lib/cpu/sh54/wdt.h" />
+<Unit filename="../../include_lib/cpu/br28/clock.h" />
+<Unit filename="../../include_lib/cpu/br28/cpu.h" />
+<Unit filename="../../include_lib/cpu/br28/crc.h" />
+<Unit filename="../../include_lib/cpu/br28/csfr.h" />
+<Unit filename="../../include_lib/cpu/br28/delay.h" />
+<Unit filename="../../include_lib/cpu/br28/gpio.h" />
+<Unit filename="../../include_lib/cpu/br28/hwi.h" />
+<Unit filename="../../include_lib/cpu/br28/io_imap.h" />
+<Unit filename="../../include_lib/cpu/br28/io_omap.h" />
+<Unit filename="../../include_lib/cpu/br28/irq.h" />
+<Unit filename="../../include_lib/cpu/br28/mask_api.h" />
+<Unit filename="../../include_lib/cpu/br28/setup.h" />
+<Unit filename="../../include_lib/cpu/br28/uart.h" />
+<Unit filename="../../include_lib/cpu/br28/usb.h" />
+<Unit filename="../../include_lib/cpu/br28/wdt.h" />
 <Unit filename="../../include_lib/drivers/usb/ch9.h" />
 <Unit filename="../../include_lib/drivers/usb/hid.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_config.h" />

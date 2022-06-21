@@ -44,6 +44,13 @@
 <Add directory="../../include_lib/upgrade" />
 </Compiler>
 <Linker>
+<Add option="--plugin-opt=-pi32-memreg-opt" />
+<Add option="--plugin-opt=-pi32-mem-offset-adj-opt" />
+<Add option="--plugin-opt=-pi32-const-spill" />
+<Add option="--plugin-opt=-pi32-enable-jz" />
+<Add option="--plugin-opt=-pi32-tailcall-opt" />
+<Add option="--plugin-opt=-inline-threshold=5" />
+<Add option="--plugin-opt=-pi32-enable-itblock=1" />
 <Add option="--gc-sections" />
 <Add option="--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp" />
 <Add option="-M=../../cpu/sh55/output/map.txt" />
