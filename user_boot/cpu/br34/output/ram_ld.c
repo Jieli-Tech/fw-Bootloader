@@ -44,7 +44,7 @@ SECTIONS
 
 
 	. = ORIGIN(version_ram);
-    .version ALIGN(32) (NOLOAD):
+    .version ALIGN(32):
 	{
         *(.uboot.version)
         . = ALIGN(32);
