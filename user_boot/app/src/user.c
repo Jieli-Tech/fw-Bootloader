@@ -219,10 +219,10 @@ static u32 recv_data_buf[64 / 4];
 void *recv_new_data()
 {
     void *data_p = NULL;
-    OS_ENTER_CRITICAL();
+    local_irq_disable();
     if (new_data) {
         new_data = 0;
-#if (__HID_UART_MODE_SEL==0)
+#if (USB_MODE==1)
         data_p = (void *)recv_data_buf;
         u32 rx_len = usb_g_intr_read(0, HID_EP_OUT, (u8 *)data_p, 64, 0);
         data_p =  enc_cmd_data((u8 *)data_p, rx_len);
@@ -232,7 +232,7 @@ void *recv_new_data()
 #endif
         /* log_info_hexdump((u8 *)data_p, rx_len); */
     }
-    OS_EXIT_CRITICAL();
+    local_irq_enable();
     return data_p;
 }
 
@@ -242,7 +242,7 @@ void upgrade_rsp(void *p, u32 len)
     memcpy(tx, p, len);
     log_info("+++++ACK_len:0x%x\n", len);
     log_info_hexdump((u8 *)tx, len);
-#if (__HID_UART_MODE_SEL==0)
+#if (USB_MODE==1)
     hid_tx_data(NULL, tx, sizeof(tx));
 #else
     ut_up_tx_data(tx, len);
@@ -478,7 +478,7 @@ u8 user_check_upgrade(u32 jlfs_err)
     }
     log_info("%s() 0x%x 0x%x\n", __func__, upgrade_file.addr, upgrade_file.size);
 
-#if (__HID_UART_MODE_SEL==0)
+#if (USB_MODE==1)
     usb_device_mode(0, HID_CLASS);
 #else
     ut_device_mode("PA01", "PA02", 1000000);

@@ -11,6 +11,7 @@
 #include "upgrade.h"
 #include "user.h"
 #include "mask_api.h"
+#include "norflash.h"
 
 #define LOG_TAG_CONST       BOOT
 #define LOG_TAG             "[main]"
@@ -89,6 +90,7 @@ int main(void)
 
     arch_init();
 
+    /* flash_set_wp(0x856013,128); */
 
     u8 err = jlfs_mount();//非0表示fs初始化失败，可能是升级未完成
     if (err) {

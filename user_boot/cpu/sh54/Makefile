@@ -108,7 +108,6 @@ DEFINES := \
 	-DENTRY_ADDR=0x1000 \
 	-D__USE_MASK_API__ \
 	-D__ZE_FLASH_CAM_PATCH \
-	-D__HID_UART_MODE_SEL=1 \
 	-D__USE_MASK_PRINTF \
 
 
@@ -121,21 +120,18 @@ INCLUDES := \
 	-I../../include_lib \
 	-I../../include_lib/common \
 	-I../../include_lib/drivers \
-	-I../../include_lib/cpu/sh54 \
 	-I../../include_lib/drivers/norflash \
 	-I../../include_lib/fs/jlfs \
 	-I../../include_lib/upgrade \
+	-I../../include_lib/cpu/sh54 \
 	-I$(SYS_INC_DIR) \
 
 
 # 需要编译的 .c 文件
 c_SRC_FILES := \
-	../../app/src/descriptor.c \
-	../../app/src/hid.c \
+	../../app/src/flash_wp.c \
 	../../app/src/log_config.c \
 	../../app/src/main.c \
-	../../app/src/usb_config.c \
-	../../app/src/usb_device.c \
 	../../app/src/user.c \
 	../../cpu/sh54/delay.c \
 	../../cpu/sh54/uart.c \
@@ -163,13 +159,7 @@ cxx_SRC_FILES :=
 
 # 链接参数
 LFLAGS := \
-	--plugin-opt=-pi32-memreg-opt \
-	--plugin-opt=-pi32-mem-offset-adj-opt \
-	--plugin-opt=-pi32-const-spill \
-	--plugin-opt=-pi32-enable-jz \
-	--plugin-opt=-pi32-tailcall-opt \
 	--plugin-opt=-inline-threshold=5 \
-	--plugin-opt=-pi32-enable-itblock=1 \
 	--gc-sections \
 	--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp \
 	-M=../../cpu/sh54/output/map.txt \

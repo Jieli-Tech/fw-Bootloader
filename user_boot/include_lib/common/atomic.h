@@ -12,12 +12,12 @@ static inline int atomic_add_return(int i, atomic_t *v)
 {
     int val;
 
-    OS_ENTER_CRITICAL();
+    local_irq_disable();
 
     val = v->counter;
     v->counter = val += i;
 
-    OS_EXIT_CRITICAL();
+    local_irq_enable();
 
     return val;
 }
@@ -27,12 +27,12 @@ static inline int atomic_sub_return(int i, atomic_t *v)
 {
     int val;
 
-    OS_ENTER_CRITICAL();
+    local_irq_disable();
 
     val = v->counter;
     v->counter = val -= i;
 
-    OS_EXIT_CRITICAL();
+    local_irq_enable();
 
     return val;
 }
@@ -41,11 +41,11 @@ static inline int atomic_set(atomic_t *v, int i)
 {
     int val = 0;
 
-    OS_ENTER_CRITICAL();
+    local_irq_disable();
 
     v->counter = i;
 
-    OS_EXIT_CRITICAL();
+    local_irq_enable();
 
     return val;
 }

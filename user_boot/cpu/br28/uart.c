@@ -1,6 +1,6 @@
 #include "uart.h"
 #include "gpio.h"
-#include "hwi.h"
+#include "irq.h"
 
 #define LOG_TAG_CONST       UPGRADE
 #define LOG_TAG             "[uart]"

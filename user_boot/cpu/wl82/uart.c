@@ -1,6 +1,6 @@
 #include "uart.h"
 #include "gpio.h"
-#include "hwi.h"
+#include "irq.h"
 
 #define LOG_TAG_CONST       UPGRADE
 #define LOG_TAG             "[uart]"
@@ -254,7 +254,7 @@ void ut_devic_mode_close(void)
     gpio_set_die(user_uart0_rx, 0);
     gpio_set_direction(user_uart0_rx, 1);
     gpio_clear_output_channle(user_uart0_tx, CH0_UT0_TX);
-    gpio_uart_clear_rx_input(user_uart0_rx, 0, 0);
+    /* gpio_uart_clear_rx_input(user_uart0_rx, 0, 0); */
 }
 
 void user_uart1_usb0_init(u32 baud)

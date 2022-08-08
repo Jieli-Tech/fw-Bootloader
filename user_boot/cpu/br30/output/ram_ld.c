@@ -27,7 +27,7 @@ RAM0_END 		= UPDATA_BEG;
 
 MEMORY
 {
-	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 18k
+	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 26k
 	version_ram :   ORIGIN = 0x8000000,  LENGTH = 128
 #if SUPPORT_BP_DEBUG == 1
 	bp_ram(rwx) : ORIGIN = RAM0_BEG,  LENGTH = RAM0_SIZE

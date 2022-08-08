@@ -37,16 +37,15 @@
 <Add option="-D__USE_MASK_API__" />
 <Add option="-D__MASK_LZ4" />
 <Add option="-D__USE_MASK_PRINTF" />
-<Add option="-D__HID_UART_MODE_SEL=1" />
 <Add directory="../../app" />
 <Add directory="../../app/inc" />
 <Add directory="../../include_lib" />
 <Add directory="../../include_lib/common" />
 <Add directory="../../include_lib/drivers" />
-<Add directory="../../include_lib/cpu/br34" />
 <Add directory="../../include_lib/drivers/norflash" />
 <Add directory="../../include_lib/fs/jlfs" />
 <Add directory="../../include_lib/upgrade" />
+<Add directory="../../include_lib/cpu/br34" />
 </Compiler>
 <Linker>
 <Add option="--plugin-opt=-inline-threshold=5" />
@@ -79,8 +78,7 @@
 </Target>
 </Build>
 <Unit filename="../../app/inc/user.h" />
-<Unit filename="../../app/src/descriptor.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../app/src/hid.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../app/src/flash_wp.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/log_config.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/main.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/user.c"><Option compilerVer="CC"/></Unit>
@@ -107,9 +105,8 @@
 <Unit filename="../../include_lib/cpu/br34/uart.h" />
 <Unit filename="../../include_lib/cpu/br34/usb.h" />
 <Unit filename="../../include_lib/cpu/br34/wdt.h" />
+<Unit filename="../../include_lib/drivers/norflash/norflash.h" />
 <Unit filename="../../include_lib/drivers/usb/ch9.h" />
-<Unit filename="../../include_lib/drivers/usb/hid.h" />
-<Unit filename="../../include_lib/drivers/usb/usb_config.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_phy.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_stack.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_std_class.h" />

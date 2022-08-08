@@ -3,13 +3,13 @@
 <FileVersion major="1" minor="6" />
 <Project>
 <Option title="br25_uboot" />
-<Option compiler="pi32v2_r3_lto_compiler" />
+<Option compiler="pi32v2_lto_compiler" />
 <Build>
 <Target title="Release">
 <Option output="../../cpu/br25/output/uboot.elf" prefix_auto="0" extension_auto="0" />
 <Option object_output="obj/Release/" />
 <Option type="1" />
-<Option compiler="pi32v2_r3_lto_compiler" />
+<Option compiler="pi32v2_lto_compiler" />
 <Compiler>
 <Add option="-Werror=implicit-function-declaration" />
 <Add option="-Werror=macro-redefined" />
@@ -38,16 +38,15 @@
 <Add option="-D__MASK_LZ4" />
 <Add option="-D__USE_MASK_PRINTF" />
 <Add option="-D__ZE_FLASH_CAM_PATCH" />
-<Add option="-D__HID_UART_MODE_SEL=0" />
 <Add directory="../../app" />
 <Add directory="../../app/inc" />
 <Add directory="../../include_lib" />
 <Add directory="../../include_lib/common" />
 <Add directory="../../include_lib/drivers" />
-<Add directory="../../include_lib/cpu/br25" />
 <Add directory="../../include_lib/drivers/norflash" />
 <Add directory="../../include_lib/fs/jlfs" />
 <Add directory="../../include_lib/upgrade" />
+<Add directory="../../include_lib/cpu/br25" />
 </Compiler>
 <Linker>
 <Add option="--plugin-opt=-inline-threshold=5" />
@@ -55,11 +54,9 @@
 <Add option="--plugin-opt=-pi32v2-always-use-itblock" />
 <Add option="--plugin-opt=-pi32v2-merge-max-offset=64" />
 <Add option="--plugin-opt=-global-merge-on-const" />
-<Add option="--plugin-opt=-pi32v2-enable-simd=true" />
+<Add option="--plugin-opt=-pi32v2-enable-simd=false" />
 <Add option="--plugin-opt=-pi32v2-enable-rep-memop=true" />
-<Add option="--plugin-opt=mcpu=r3" />
 <Add option="--plugin-opt=save-temps" />
-<Add option="--dont-complain-call-overflow" />
 <Add option="--gc-sections" />
 <Add option="--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp" />
 <Add option="-M=../../cpu/br25/output/map.txt" />
@@ -69,7 +66,7 @@
 <Add option="../../include_lib/liba/br25/uboot.a" />
 <Add option="--no-whole-archive" />
 <Add option="--end-group" />
-<Add library="C:\JL\pi32\pi32v2-lib\r3\libm.a" />
+<Add library="C:\JL\pi32\pi32v2-lib\libm.a" />
 </Linker>
 <ExtraCommands>
 <Add before="$compiler $options $includes -D__LD__ -E -P ..\..\cpu\br25\output\ram_ld.c -o ..\..\cpu\br25\output\ram.ld" />
@@ -80,12 +77,9 @@
 </Target>
 </Build>
 <Unit filename="../../app/inc/user.h" />
-<Unit filename="../../app/src/descriptor.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../app/src/hid.c"><Option compilerVer="CC"/></Unit>
+<Unit filename="../../app/src/flash_wp.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/log_config.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/main.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../app/src/usb_config.c"><Option compilerVer="CC"/></Unit>
-<Unit filename="../../app/src/usb_device.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../app/src/user.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../cpu/br25/delay.c"><Option compilerVer="CC"/></Unit>
 <Unit filename="../../cpu/br25/uart.c"><Option compilerVer="CC"/></Unit>
@@ -108,9 +102,8 @@
 <Unit filename="../../include_lib/cpu/br25/uart.h" />
 <Unit filename="../../include_lib/cpu/br25/usb.h" />
 <Unit filename="../../include_lib/cpu/br25/wdt.h" />
+<Unit filename="../../include_lib/drivers/norflash/norflash.h" />
 <Unit filename="../../include_lib/drivers/usb/ch9.h" />
-<Unit filename="../../include_lib/drivers/usb/hid.h" />
-<Unit filename="../../include_lib/drivers/usb/usb_config.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_phy.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_stack.h" />
 <Unit filename="../../include_lib/drivers/usb/usb_std_class.h" />

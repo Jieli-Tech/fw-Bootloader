@@ -104,7 +104,6 @@ DEFINES := \
 	-DENTRY_ADDR=0x4000 \
 	-D__USE_MASK_API__ \
 	-D__ZE_FLASH_CAM_PATCH \
-	-D__HID_UART_MODE_SEL=1 \
 
 
 DEFINES += $(EXT_CFLAGS) # 额外的一些定义
@@ -116,21 +115,18 @@ INCLUDES := \
 	-I../../include_lib \
 	-I../../include_lib/common \
 	-I../../include_lib/drivers \
-	-I../../include_lib/cpu/br23 \
 	-I../../include_lib/drivers/norflash \
 	-I../../include_lib/fs/jlfs \
 	-I../../include_lib/upgrade \
+	-I../../include_lib/cpu/br23 \
 	-I$(SYS_INC_DIR) \
 
 
 # 需要编译的 .c 文件
 c_SRC_FILES := \
-	../../app/src/descriptor.c \
-	../../app/src/hid.c \
+	../../app/src/flash_wp.c \
 	../../app/src/log_config.c \
 	../../app/src/main.c \
-	../../app/src/usb_config.c \
-	../../app/src/usb_device.c \
 	../../app/src/user.c \
 	../../cpu/br23/delay.c \
 	../../cpu/br23/uart.c \

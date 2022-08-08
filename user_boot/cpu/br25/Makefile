@@ -22,7 +22,7 @@ AR    := pi32v2-lto-ar.exe
 MKDIR := mkdir_win -p
 RM    := rm -rf
 
-SYS_LIB_DIR := C:/JL/pi32/pi32v2-lib/r3
+SYS_LIB_DIR := C:/JL/pi32/pi32v2-lib
 SYS_INC_DIR := C:/JL/pi32/pi32v2-include
 EXT_CFLAGS  := # Windows 下不需要 -D__SHELL__
 export PATH:=$(TOOL_DIR);$(PATH)
@@ -43,7 +43,7 @@ export OBJDUMP := $(TOOL_DIR)/objdump
 export OBJCOPY := $(TOOL_DIR)/objcopy
 export OBJSIZEDUMP := $(TOOL_DIR)/objsizedump
 
-SYS_LIB_DIR := $(TOOL_DIR)/../lib/r3
+SYS_LIB_DIR := $(TOOL_DIR)/../lib
 SYS_INC_DIR := $(TOOL_DIR)/../include
 EXT_CFLAGS  := -D__SHELL__ # Linux 下需要这个保证正确处理 download.c
 export PATH:=$(TOOL_DIR):$(PATH)
@@ -68,8 +68,10 @@ ROOT_PREFIX := ../..
 # 编译参数设置
 CFLAGS := \
 	-target pi32v2 \
-	-mcpu=r3 \
 	-integrated-as \
+	-fno-builtin \
+	-mllvm -inline-threshold=5 \
+	-Oz \
 	-flto \
 	-Werror=implicit-function-declaration \
 	-Werror=macro-redefined \
@@ -106,7 +108,6 @@ DEFINES := \
 	-D__MASK_LZ4 \
 	-D__USE_MASK_PRINTF \
 	-D__ZE_FLASH_CAM_PATCH \
-	-D__HID_UART_MODE_SEL=0 \
 
 
 DEFINES += $(EXT_CFLAGS) # 额外的一些定义
@@ -118,21 +119,18 @@ INCLUDES := \
 	-I../../include_lib \
 	-I../../include_lib/common \
 	-I../../include_lib/drivers \
-	-I../../include_lib/cpu/br25 \
 	-I../../include_lib/drivers/norflash \
 	-I../../include_lib/fs/jlfs \
 	-I../../include_lib/upgrade \
+	-I../../include_lib/cpu/br25 \
 	-I$(SYS_INC_DIR) \
 
 
 # 需要编译的 .c 文件
 c_SRC_FILES := \
-	../../app/src/descriptor.c \
-	../../app/src/hid.c \
+	../../app/src/flash_wp.c \
 	../../app/src/log_config.c \
 	../../app/src/main.c \
-	../../app/src/usb_config.c \
-	../../app/src/usb_device.c \
 	../../app/src/user.c \
 	../../cpu/br25/delay.c \
 	../../cpu/br25/uart.c \
@@ -165,11 +163,9 @@ LFLAGS := \
 	--plugin-opt=-pi32v2-always-use-itblock \
 	--plugin-opt=-pi32v2-merge-max-offset=64 \
 	--plugin-opt=-global-merge-on-const \
-	--plugin-opt=-pi32v2-enable-simd=true \
+	--plugin-opt=-pi32v2-enable-simd=false \
 	--plugin-opt=-pi32v2-enable-rep-memop=true \
-	--plugin-opt=mcpu=r3 \
 	--plugin-opt=save-temps \
-	--dont-complain-call-overflow \
 	--gc-sections \
 	--plugin-opt=-dont-used-symbol-list=malloc,free,sprintf,printf,puts,putchar,perror,vprintf,printi,fopen,fread,fwrite,fseek,strlen,memset,memcpy,strcpy,memmove,strcmp \
 	-M=../../cpu/br25/output/map.txt \
@@ -179,8 +175,7 @@ LFLAGS := \
 	../../include_lib/liba/br25/uboot.a \
 	--no-whole-archive \
 	--end-group \
-	--plugin-opt=mcpu=r3 \
-	--plugin-opt=-mattr=+fprev1 \
+	--plugin-opt=-inline-threshold=5 \
 
 
 LIBPATHS := \
