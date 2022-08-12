@@ -13,7 +13,7 @@
                 "__MASK_LZ4",
                 "__UPDATE_NEED_SFC",
                 "__ZE_FLASH_CAM_PATCH",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=1",
                 "__Q32S__"
             ],
             "includePath": [
@@ -22,10 +22,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/bd19",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/bd19",
                 "C:/JL/pi32/q32s-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -40,8 +40,8 @@
                 "ENTRY_ADDR=0x1000",
                 "__USE_MASK_API__",
                 "__ZE_FLASH_CAM_PATCH",
-                "__HID_UART_MODE_SEL=1",
                 "__USE_MASK_PRINTF",
+                "USB_MODE=1",
                 "__PI32__"
             ],
             "includePath": [
@@ -50,10 +50,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/sh54",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/sh54",
                 "C:/JL/pi32/include/libc"
             ],
             "intelliSenseMode": "clang-x86",
@@ -69,7 +69,7 @@
                 "__USE_MASK_API__",
                 "__MASK_LZ4",
                 "__USE_MASK_PRINTF",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=1",
                 "__PI32V2__"
             ],
             "includePath": [
@@ -78,10 +78,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/br34",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/br34",
                 "C:/JL/pi32/pi32v2-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -97,7 +97,7 @@
                 "__USE_MASK_API__",
                 "__MASK_LZ4",
                 "__USE_MASK_PRINTF",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=1",
                 "__PI32V2__"
             ],
             "includePath": [
@@ -106,10 +106,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/br28",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/br28",
                 "C:/JL/pi32/pi32v2-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -124,7 +124,7 @@
                 "ENTRY_ADDR=0x1c02000",
                 "__USE_MASK_API__",
                 "__USE_MASK_PRINTF",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=1",
                 "__PI32V2__"
             ],
             "includePath": [
@@ -133,10 +133,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/wl82",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/wl82",
                 "C:/JL/pi32/pi32v2-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -151,7 +151,7 @@
                 "ENTRY_ADDR=0x4000",
                 "__USE_MASK_API__",
                 "__ZE_FLASH_CAM_PATCH",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=1",
                 "__PI32V2__"
             ],
             "includePath": [
@@ -160,10 +160,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/br23",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/br23",
                 "C:/JL/pi32/pi32v2-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -179,7 +179,7 @@
                 "__USE_MASK_API__",
                 "__MASK_LZ4",
                 "__USE_MASK_PRINTF",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=1",
                 "__PI32V2__"
             ],
             "includePath": [
@@ -188,10 +188,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/br30",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/br30",
                 "C:/JL/pi32/pi32v2-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -208,7 +208,7 @@
                 "__MASK_LZ4",
                 "__USE_MASK_PRINTF",
                 "__ZE_FLASH_CAM_PATCH",
-                "__HID_UART_MODE_SEL=0",
+                "USB_MODE=1",
                 "__PI32V2__"
             ],
             "includePath": [
@@ -217,10 +217,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/br25",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/br25",
                 "C:/JL/pi32/pi32v2-include"
             ],
             "intelliSenseMode": "clang-x86",
@@ -235,7 +235,7 @@
                 "ENTRY_ADDR=0",
                 "__USE_MASK_API__",
                 "__ZE_FLASH_CAM_PATCH",
-                "__HID_UART_MODE_SEL=1",
+                "USB_MODE=0",
                 "__PI32__"
             ],
             "includePath": [
@@ -244,10 +244,10 @@
                 "${workspaceFolder}/include_lib",
                 "${workspaceFolder}/include_lib/common",
                 "${workspaceFolder}/include_lib/drivers",
-                "${workspaceFolder}/include_lib/cpu/sh55",
                 "${workspaceFolder}/include_lib/drivers/norflash",
                 "${workspaceFolder}/include_lib/fs/jlfs",
                 "${workspaceFolder}/include_lib/upgrade",
+                "${workspaceFolder}/include_lib/cpu/sh55",
                 "C:/JL/pi32/include/libc"
             ],
             "intelliSenseMode": "clang-x86",

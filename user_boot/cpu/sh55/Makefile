@@ -108,6 +108,7 @@ DEFINES := \
 	-DENTRY_ADDR=0 \
 	-D__USE_MASK_API__ \
 	-D__ZE_FLASH_CAM_PATCH \
+	-DUSB_MODE=0 \
 
 
 DEFINES += $(EXT_CFLAGS) # 额外的一些定义

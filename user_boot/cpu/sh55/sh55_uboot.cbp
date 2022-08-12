@@ -32,6 +32,7 @@
 <Add option="-DENTRY_ADDR=0" />
 <Add option="-D__USE_MASK_API__" />
 <Add option="-D__ZE_FLASH_CAM_PATCH" />
+<Add option="-DUSB_MODE=0" />
 <Add directory="../../app" />
 <Add directory="../../app/inc" />
 <Add directory="../../include_lib" />

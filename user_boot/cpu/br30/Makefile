@@ -105,6 +105,7 @@ DEFINES := \
 	-D__USE_MASK_API__ \
 	-D__MASK_LZ4 \
 	-D__USE_MASK_PRINTF \
+	-DUSB_MODE=1 \
 
 
 DEFINES += $(EXT_CFLAGS) # 额外的一些定义
@@ -125,9 +126,13 @@ INCLUDES := \
 
 # 需要编译的 .c 文件
 c_SRC_FILES := \
+	../../app/src/descriptor.c \
 	../../app/src/flash_wp.c \
+	../../app/src/hid.c \
 	../../app/src/log_config.c \
 	../../app/src/main.c \
+	../../app/src/usb_config.c \
+	../../app/src/usb_device.c \
 	../../app/src/user.c \
 	../../cpu/br30/delay.c \
 	../../cpu/br30/uart.c \

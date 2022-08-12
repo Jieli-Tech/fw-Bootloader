@@ -90,7 +90,11 @@ int main(void)
 
     arch_init();
 
-    /* flash_set_wp(0x856013,128); */
+#if 0//写保护示例
+    struct  flash_info_t *flash_info = get_flash_info();
+    u32 flash_id = flash_info->id;
+    flash_set_wp(flash_id, 128);
+#endif
 
     u8 err = jlfs_mount();//非0表示fs初始化失败，可能是升级未完成
     if (err) {

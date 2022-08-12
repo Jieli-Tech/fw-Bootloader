@@ -4,24 +4,24 @@
 #include "printf.h"
 
 #define ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
+
 const struct flash_wp_arg wp[] = {
     {
-        // 4_PS P25Q40HDWF-0x856013
-        .id = 0x856013,
+        // W25Q64JV-0x909294
+        .id = 0x909294,
         .split_mode = 1,
         .write_en_use_50h = 0,
         .res = 0,
         .numOfwp_array = 2,
-        .wp_array[0].wp_addr = 64,
-        .wp_array[0].sr1 = 0x24,
+        .wp_array[0].wp_addr = 1024,
+        .wp_array[0].sr1 = 0x30,
         .wp_array[0].sr2 = 0x0,
-        .wp_array[1].wp_addr = 128,
-        .wp_array[1].sr1 = 0x28,
+        .wp_array[1].wp_addr = 2048,
+        .wp_array[1].sr1 = 0x34,
         .wp_array[1].sr2 = 0x0,
     },
 };
-
-void flash_set_wp(u32 flash_id, u32 addr)
+void flash_set_wp(u32 flash_id, u32 addr)//addr 是想要保护的地址
 {
     const struct flash_wp_arg *p = NULL;
     for (int i = 0 ; i < ARRAY_SIZE(wp); i++) {
