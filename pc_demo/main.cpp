@@ -3,7 +3,7 @@
 #include <vector>
 #include <QByteArray>
 
-#include <QApplication>
+#include <QtWidgets/QApplication>
 
 #include <QDateTime>
 #include <QFile>
