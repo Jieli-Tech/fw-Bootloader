@@ -62,20 +62,20 @@ int main(void)
     if (strcmp((char *)val, "LRC") == 0) {
         pll_scr = 2;
     }
-    u32 ut_buad = 0;
+    u32 ut_baud = 0;
     char uttx[8] = {0};
     memset(uttx, 0, sizeof(uttx));
     dec_isd_cfg_ini("UTTX", uttx, ptr);
-    dec_isd_cfg_ini("UTBD", &ut_buad, ptr);
+    dec_isd_cfg_ini("UTBD", &ut_baud, ptr);
 
     if (pll_scr == 2) {
         sys_clk_init(0, 48000000);
     } else {
         sys_clk_init(24000000, 48000000);
     }
-    uart_init(uttx, ut_buad);
+    uart_init(uttx, ut_baud);
     /* uart_init("USBDP", 1000000); //debug串口 */
-    /* printf("debug IO:%s,buad:%d\n",uttx,ut_buad); */
+    /* printf("debug IO:%s,baud:%d\n",uttx,ut_baud); */
 
 #else
 
