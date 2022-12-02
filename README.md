@@ -3,14 +3,14 @@ Customized bootloader for JL series(AC63/...)
 
 JL 系列user boot固件程序
 
-本仓库包含user boot release 版本代码，线下线上支持同步发布，支持用户进行自定义串口升级.
+本仓库包含user boot release 版本代码，线下线上支持同步发布，支持用户进行自定义串口升级和 usb_hid 升级。
 
 本工程提供的例子，需要结合对应命名规则的库文件(lib.a) 和对应的子仓库进行编译.
 
 快速开始
 ------------
 
-欢迎使用杰理开源项目，在开始进入项目之前，请详细阅读SDK 介绍文档 [说明文档](doc/user_uboot_demo使用说明v1.1.1.pdf)
+欢迎使用杰理开源项目，在开始进入项目之前，请详细阅读介绍文档
 
 工具链
 ------------
@@ -20,7 +20,9 @@ JL 系列user boot固件程序
 介绍文档
 ------------
 
-SDK 简介 :见 [说明文档](doc/user_uboot_demo使用说明v1.1.1.pdf) 
+uboot 升级使用说明：[uboot升级使用说明](doc/uboot%E5%8D%87%E7%BA%A7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8Ev1.1.2.md) 
+
+uboot 升级协议流程：[uboot升级协议流程](doc/uboot%E5%8D%87%E7%BA%A7%E5%8D%8F%E8%AE%AE%E6%B5%81%E7%A8%8Bv1.1.2.md) 
 
 
 SDK与BootLoader系列对应说明
@@ -50,8 +52,7 @@ SDK 同时支持Codeblock 和 Make 编译环境，请确保编译前已经搭建
 硬件环境
 -------------
 
-与标准SDK一致，生成的uboot.boot要添加到原SDK下载目录调试，流程见 [说明文档](doc/user_uboot_demo使用说明v1.1.1.pdf) 
-
+与标准SDK一致，生成的uboot.boot要添加到原SDK下载目录调试，流程见 [uboot升级使用说明](doc/uboot%E5%8D%87%E7%BA%A7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8Ev1.1.2.md)
 
 免责声明
 ------------
