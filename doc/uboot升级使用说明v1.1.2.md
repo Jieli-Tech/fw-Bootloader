@@ -43,6 +43,22 @@ app\src\user.c文件，ut_device_mode(tx, rx, bud)函数设置串口TX脚，RX�
 </div>
 <br/>
 
+选择 usb_hid 升级模式时，uboot 工程的 usb_vid，usb_pid 与 usb_hid 上位机的 usb_vid，usb_pid 需要保持一致 。
+
+uboot 工程修改 usb_vid 和 usb_pid 方法如图所示：
+<br/>
+<div align="center">
+    <img src="./attch\uboot_usb_vid_pid.png">
+</div>
+<br/>
+
+usb_hid 上位机修改 usb_vid 和 usb_pid 方法如图所示：（打开pc_demo\usb_hid\main.cpp查看）
+<br/>
+<div align="center">
+    <img src="./attch\usb_hid_usb_vid_pid.png">
+</div>
+<br/>
+
 ## 三、调试功能配置
 ### 1.使能调试打印功能
 打开 Project build options 设置，选择 Compiler settings，#defines设置，添加 __DEBUG 即可使能调试打印功能。如图所示：
@@ -138,7 +154,7 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 
 在需要执行 uboot 升级的位置，调用 chip_reboot_entry_uboot_uart_upgrade_mode() 函数即可。
 
-升级完成后，调用 check_uboot_uart_upgrade() 函数检测升级是否成功（需要放在memory_init( ) 前）。
+升级完成后，sdk 调用 check_uboot_uart_upgrade() 函数检测升级是否成功（需要放在memory_init( ) 前）。
 
 ## 五、上位机使用
 上位机使用QT编写，开放源码，用户可自行修改（版本号5.9以上，6.0以下）。
@@ -166,7 +182,7 @@ USB_HID 上位机说明如下：（暂时没有图形界面）
     2. 将生成的 jl_isd.bin 文件复制到文件夹 ；
     3. 打开 Powershell 窗口 ；
     4. 输入 .\UbootHid.exe ， 回车执行 ；
-    注意：选择 USB_HID 升级时，每个包长最大为 64Byte。
+    5. 升级完成，复位；
 
 <br/>
 <div align="center">
@@ -183,6 +199,12 @@ USB_HID 上位机说明如下：（暂时没有图形界面）
 <br/>
 <div align="center">
     <img src="./attch\UbootHid_exe.png">
+</div>
+<br/>
+
+<br/>
+<div align="center">
+    <img src="./attch\update_ok.png">
 </div>
 <br/>
 
@@ -204,4 +226,12 @@ USB_HID 上位机说明如下：（暂时没有图形界面）
     3. 若无法使用4k对齐(代码空间不够)，请确保升级用的bin文件，是在用强制升级工具连接样机下载代码时生成的；
     4. 如果 isd_config.ini 文件有 EOFFSET=1；的配置，则需要在 isd_config.ini 文件里加上 GENERATE_TWO_BIN = YES ;用以生成 0K/4K 文件；
         然后根据 upgrade_eoffset（uboot 代码里有），等于 4k 就用 jl_isd_4K.bin,否则用 jl_isd_0K.bin。如果没有 EOFFSET=1 ;直接使用 jl_isd.bin 文件即可；
+    5. 选择 usb_hid 升级时，由于 hid 传输包长最大为 64Byte，写 flash 的命令还会占用一些 Byte，所以实际写到 flash 的数据长度 = （64 - 写 flash 命令长度）；如图所示：（打开pc_demo\usb_hid\main.cpp查看）
+<br/>
+<div align="center">
+    <img src="./attch\write_flash_max_len.png">
+</div>
+<br/>
+
+
 

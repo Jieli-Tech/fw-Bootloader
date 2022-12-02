@@ -25,6 +25,9 @@
 #define JL_MAX_CRC_LIST_COUNT 16
 #define JL_MAX_WRITE_SIZE 1024
 
+#define JL_USB_VID 0X4c4a
+#define JL_USB_PID 0X4155
+
 
 
 uint16_t crc16(const void *_ptr, uint32_t len)
@@ -429,7 +432,7 @@ int main(int argc, char *argv[])
 
     // Open the device using the VID, PID,
     // and optionally the Serial number.
-    handle = hid_open(0x4c4a, 0x4155, NULL);
+    handle = hid_open(JL_USB_VID, JL_USB_PID, NULL);
     if (!handle) {
         printf("unable to open device\n");
         return 1;
