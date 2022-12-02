@@ -2,7 +2,7 @@
 #define PHYSERIALTHREAD_H
 
 #include "utils/blockingqueue.h"
-#include <QSerialPort>
+#include <QtSerialPort/QSerialPort>
 #include <QThread>
 
 class PhySerialThread : public QThread
