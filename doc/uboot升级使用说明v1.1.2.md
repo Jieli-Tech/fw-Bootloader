@@ -9,54 +9,94 @@
 ## 一、uboot工程选择
 根据使用的芯片型号，选择对应的uboot工程。以AC632N为例，需要打开的工程为fw-Bootloader-main\user_boot\cpu\bd19\bd19_uboot.cbp。如图所示：
 
-![uboot工程选择](attch\uboot工程选择.png)
+<br/>
+<div align="center">
+    <img src="./attch\uboot_select_project.png">
+</div>
+<br/>
 
 ## 二、升级模式选择
 uboot升级有 “串口升级模式” 和 “USB_HID升级模式” 两种。根据需求进行选择。
 ### 1.串口升级模式配置
 打开 Project build options 设置，选择 Compiler settings，#defines设置，添加 USB_MODE=0 即可将 uboot 工程配置成串口升级模式。如图所示：
 
-![串口升级模式配置](attch\串口升级模式配置.png)
+<br/>
+<div align="center">
+    <img src="./attch\serial_update_mode_config.png">
+</div>
+<br/>
 
 app\src\user.c文件，ut_device_mode(tx, rx, bud)函数设置串口TX脚，RX脚，波特率。如图所示：
 
-![串口配置](attch\串口配置.png)
+<br/>
+<div align="center">
+    <img src="./attch\serial_config.png">
+</div>
+<br/>
 
 ### 2.USB_HID升级模式配置
 打开 Project build options 设置，选择 Compiler settings，#defines设置，添加 USB_MODE=1 即可将 uboot 工程配置成USB_HID升级模式。如图所示：
 
-![USB_HID升级模式配置](attch\USB_HID升级模式配置.png)
+<br/>
+<div align="center">
+    <img src="./attch\usb_hid_update_mode_config.png">
+</div>
+<br/>
 
 ## 三、调试功能配置
 ### 1.使能调试打印功能
 打开 Project build options 设置，选择 Compiler settings，#defines设置，添加 __DEBUG 即可使能调试打印功能。如图所示：
 
-![使能调试打印功能](attch\使能调试打印功能.png)
+<br/>
+<div align="center">
+    <img src="./attch\debug_enable.png">
+</div>
+<br/>
 
 ### 2.调试打印脚和波特率配置
 方法一：使用 isd_config.ini 配置文件中的引脚和波特率配置。如图所示：
 
-![isd_config.ini配置](attch\isd_config.ini配置.png)
+<br/>
+<div align="center">
+    <img src="./attch\isd_ini_config.png">
+</div>
+<br/>
 
 在 main 函数中调用 uart_init(uttx, ut_buad) 函数，如图所示：
 
-![isd_config.ini配置代码](attch\isd_config.ini配置代码.png)
+<br/>
+<div align="center">
+    <img src="./attch\isd_ini_config_code.png">
+</div>
+<br/>
 
 方法二：代码中直接设置打印脚和波特率，以PA5，1000000波特率为例。如图所示：
 
-![直接设置打印引脚和波特率](attch\直接设置打印脚和波特率.png)
+<br/>
+<div align="center">
+    <img src="./attch\set_tx_and_baud.png">
+</div>
+<br/>
 
 ## 四、升级触发方式配置
 升级触发方式有 I/O 口检测触发和 sdk 软件复位触发。
 ### 1. I/O 口触发
 进入uboot，main函数中，通过检测一个I/O的电平状态，选择是否跳转到升级流程。如图所示：
 
-![IO口检测](attch\IO口检测.png)
+<br/>
+<div align="center">
+    <img src="./attch\io_detect.png">
+</div>
+<br/>
 
 ### 2.SDK软件复位触发
 user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 
-![SDK软件复位触发](attch\SDK软件复位触发.png)
+<br/>
+<div align="center">
+    <img src="./attch\sdk_softreset.png">
+</div>
+<br/>
 
 在 sdk 工程中，添加以下代码实现 SDK软件复位触发。（任意位置）
 
@@ -83,7 +123,11 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 
     nvram_list = ABSOLUTE(0x800);
 
-![maskrom_stubs.ld文件](attch\maskrom_stubs.ld文件.png)
+<br/>
+<div align="center">
+    <img src="./attch\sdk_softreset.png">
+</div>
+<br/>
 
 不同的芯片型号，对应不同的参数：
 
@@ -110,7 +154,11 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
     7.开始升级
     注意：选择串口升级时，包长自定义，默认长度是4K。
 
-![上位机界面说明](attch\上位机界面说明.png)
+<br/>
+<div align="center">
+    <img src="./attch\serial_upper_host_machine.png">
+</div>
+<br/>
 
 USB_HID 上位机说明如下：（暂时没有图形界面）
 
@@ -120,11 +168,23 @@ USB_HID 上位机说明如下：（暂时没有图形界面）
     4. 输入 .\UbootHid.exe ， 回车执行 ；
     注意：选择 USB_HID 升级时，每个包长最大为 64Byte。
 
-![build-out-bin文件夹](attch\build-out-bin文件夹.png)
+<br/>
+<div align="center">
+    <img src="./attch\usb_hid_build_out_bin.png">
+</div>
+<br/>
 
-![打开powershell窗口](attch\打开powershell窗口.png)
+<br/>
+<div align="center">
+    <img src="./attch\open_powershell_window.png">
+</div>
+<br/>
 
-![执行UbootHid.exe](attch\执行UbootHid.exe.png)
+<br/>
+<div align="center">
+    <img src="./attch\UbootHid_exe.png">
+</div>
+<br/>
 
 ## 六、测试流程
     1. build uboot 工程，生成新的 uboot.boot 文件，路径为 cpu\bd19\output ；

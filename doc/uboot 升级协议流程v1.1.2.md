@@ -7,15 +7,21 @@
 | v1.1.2 | 初始版本 |
 
 ## 一、实现流程
-https://gitee.com/Jieli-Tech/fw-Bootloader/blob/main/doc/uboot%20%E4%B8%B2%E5%8F%A3%E5%8D%87%E7%BA%A7%E5%8D%8F%E8%AE%AEv1.0.0.pdf
 1.主流程图
 
-![uboot升级主流程](attch\uboot升级主流程.jpg)
-
+<br/>
+<div align="center">
+    <img src="./attch\uboot_update_0.jpg">
+</div>
+<br/>
 
 2.uboot 本身升级流程图
 
-![uboot升级流程（升级uboot流程）](attch\uboot升级流程（升级uboot流程）.jpg)
+<br/>
+<div align="center">
+    <img src="./attch\uboot_update_1.jpg">
+</div>
+<br/>
 
 ## 二、协议说明
 
