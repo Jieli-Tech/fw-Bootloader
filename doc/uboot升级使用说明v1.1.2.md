@@ -130,8 +130,8 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
     void hw_mmu_disable(void);
     void chip_reboot_entry_uboot_uart_upgrade_mode()    // uboot 升级跳转函数
     {
-        hw_mmu_disable();
         memcpy((char *)NV_RAM_LIST_ADDR, uboot_uart_upgrade_mode_magic, sizeof(uboot_uart_upgrade_mode_magic));
+        hw_mmu_disable();
         cpu_reset();
     }
 
@@ -141,7 +141,7 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 
 <br/>
 <div align="center">
-    <img src="./attch\sdk_softreset.png">
+    <img src="./attch\maskrom_stubs.ld.png">
 </div>
 <br/>
 
