@@ -183,7 +183,7 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 
 ### 2.win-USB_HID 升级上位机说明如下：（暂时没有图形界面）
 
-    1. 打开 fw-Bootloader-main\pc_demo\usb_hid\build-out-bin 文件夹 ；
+    1. 打开 fw-Bootloader-main\update_tools\tools\win-usb_hid\build-out-bin 文件夹 ；
     2. 将生成的 jl_isd.bin 文件复制到文件夹 ；
     3. 打开 Powershell 窗口 ；
     4. 输入 .\UbootHid.exe ， 回车执行 ；
