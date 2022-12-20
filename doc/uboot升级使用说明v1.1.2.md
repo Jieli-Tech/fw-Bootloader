@@ -147,19 +147,24 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 
 不同的芯片型号，对应不同的参数：
 
+    BD19: nvram_list = ABSOLUTE(0x800);
     BR23: nvram_list = ABSOLUTE(0x10800);
     BR25: nvram_list = ABSOLUTE(0x10880);
+    BR28: nvram_list = ABSOLUTE(0x180800);
+    BR30: nvram_list = ABSOLUTE(0x28800);
     BR34: nvram_list = ABSOLUTE(0x28800);
-    BD19: nvram_list = ABSOLUTE(0x800);
+    SH54: nvram_list = ABSOLUTE(0x7ee4);
+    SH55: nvram_list = ABSOLUTE(0x4ee4);
+    
 
 在需要执行 uboot 升级的位置，调用 chip_reboot_entry_uboot_uart_upgrade_mode() 函数即可。
 
 升级完成后，sdk 调用 check_uboot_uart_upgrade() 函数检测升级是否成功（需要放在memory_init( ) 前）。
 
 ## 五、上位机使用
-上位机使用QT编写，开放源码，用户可自行修改（版本号5.9以上，6.0以下）。
+上位机工具有 win-uart, win-usb_hid, android-usb_hid三种，放在 fw-Bootloader\update_tools\tools 路径下，开放源码。
 
-串口升级上位机界面说如下：
+### 1.串口升级上位机界面说明如下：
 
     1.选择对应的串口
     2.设置波特率
@@ -176,7 +181,7 @@ user.h文件中，使能 USE_UPGRADE_MAGIC 宏。如图所示：
 </div>
 <br/>
 
-USB_HID 上位机说明如下：（暂时没有图形界面）
+### 2.win-USB_HID 升级上位机说明如下：（暂时没有图形界面）
 
     1. 打开 fw-Bootloader-main\pc_demo\usb_hid\build-out-bin 文件夹 ；
     2. 将生成的 jl_isd.bin 文件复制到文件夹 ；
@@ -205,6 +210,22 @@ USB_HID 上位机说明如下：（暂时没有图形界面）
 <br/>
 <div align="center">
     <img src="./attch\update_ok.png">
+</div>
+<br/>
+
+### 3.win-USB_HID 升级上位机界面说明如下：
+    1.将小机与手机连接后，打开 APP，显示 Device:online表示连接成功 ；
+    2.点击 Select file，选择待升级的 jl_isd.bin 文件 ；
+    3.点击 Upgrade，等待升级完成后，会提示 success ；
+
+<br/>
+<div align="center">
+    <img src="./attch\android_usb_hid.png">
+</div>
+<br/>
+<br/>
+<div align="center">
+    <img src="./attch\android_usb_hid_update_success.png">
 </div>
 <br/>
 
