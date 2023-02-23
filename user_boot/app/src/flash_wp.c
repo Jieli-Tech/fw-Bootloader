@@ -3,7 +3,6 @@
 #include "delay.h"
 #include "printf.h"
 
-#define ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
 
 const struct flash_wp_arg wp[] = {
     {

@@ -1,5 +1,15 @@
 #include "delay.h"
 
+void rc_udelay(u32 usec)
+{
+    JL_TIMER0->CON = BIT(14);
+    JL_TIMER0->CNT = 0;
+    JL_TIMER0->PRD = 16 * usec; //1us
+    JL_TIMER0->CON = (4 << 10) | BIT(0);
+    while ((JL_TIMER0->CON & BIT(15)) == 0);
+    JL_TIMER0->CON = BIT(14);
+}
+
 void udelay(u32 usec)
 {
     JL_TIMER0->CON = BIT(14);

@@ -44,7 +44,6 @@ struct flash_wp_arg {
 struct flash_info_t *get_flash_info(void);
 u32 get_flash_capacity(void);
 
-void flash_poweron(void);
 void norflash_init(u8 width, u8 clk_div, u8 read_mode);
 void norflash_read(u8 *buf, u32 addr, u32 len);
 u8 norflash_write(u8 *buf, u32 addr, u32 len);
@@ -52,6 +51,7 @@ u8 norflash_eraser(u32 eraser_cmd, u32 addr);
 int norflash_write_protect_config(u32 addr, const struct flash_wp_arg *p);//addr传0地址时，解除写保护
 void flash_set_wp(u32 flash_id, u32 addr);
 u32 spi_get_port();
+u16 norflash_cmd_custom(void);
 
 #define     SPI_MODE_MASK   0x7
 

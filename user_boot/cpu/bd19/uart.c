@@ -15,12 +15,17 @@ static u32 *used_tx_io_omap = NULL;
 #define DEBUG_UART  JL_UART1
 void putchar(char a)
 {
-    if (DEBUG_UART->CON0 & BIT(0)) {
-        DEBUG_UART->BUF = a;
-        __asm__ volatile("csync");
-        while ((DEBUG_UART->CON0 & BIT(15)) == 0);
-        DEBUG_UART->CON0 |= BIT(13);
+    u32 i = 0x10000;
+    if (!(DEBUG_UART->CON0 & BIT(0))) {
+        return;
     }
+    while (((DEBUG_UART->CON0 & BIT(15)) == 0) && (0 != i)) {  //TX IDLE
+        i--;
+    }
+    DEBUG_UART->CON0 |= BIT(13);  //清Tx pending
+
+    DEBUG_UART->BUF = a;
+    __asm__ volatile("csync");
 }
 
 void uart_init(const char *tx_io, u32 baud)
@@ -42,6 +47,7 @@ void uart_init(const char *tx_io, u32 baud)
         gpio_set_direction(used_tx_io, 0);
         DEBUG_UART->BAUD = 24000000 / baud / 4 - 1;
         DEBUG_UART->CON0 = BIT(13) | BIT(12) | BIT(10) | BIT(0);
+        DEBUG_UART->BUF = ' ';
     }
 }
 

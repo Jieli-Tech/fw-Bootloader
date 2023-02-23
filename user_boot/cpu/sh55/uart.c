@@ -14,14 +14,17 @@ static u8 used_tx_io;
 
 void putchar(char a)
 {
-    if (libs_debug) {
-        if (JL_UT0->CON & BIT(0)) {
-            JL_UT0->BUF = a;
-            __asm__ volatile("csync");
-            while ((JL_UT0->CON & BIT(15)) == 0);
-            JL_UT0->CON |= BIT(13);
-        }
+    u32 i = 0x10000;
+    if (!(JL_UT0->CON & BIT(0))) {
+        return;
     }
+    while (((JL_UT0->CON & BIT(15)) == 0) && (0 != i)) {  //TX IDLE
+        i--;
+    }
+    JL_UT0->CON |= BIT(13);  //清Tx pending
+
+    JL_UT0->BUF = a;
+    __asm__ volatile("csync");
 }
 
 void uart_init(const char *tx_io, u32 baud)
@@ -42,6 +45,7 @@ void uart_init(const char *tx_io, u32 baud)
             }
             JL_UT0->BAUD = 48000000 / baud / 4 - 1;
             JL_UT0->CON = BIT(13) | BIT(12) | BIT(0);
+            JL_UT0->BUF = ' ';
         }
     }
 }

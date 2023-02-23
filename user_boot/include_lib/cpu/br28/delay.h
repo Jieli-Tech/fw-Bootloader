@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+void rc_udelay(u32 usec);
+
 void udelay(u32 usec);
 
 void mdelay(u32 msec);

@@ -13,14 +13,18 @@ static u8 used_tx_io;
 
 void putchar(char a)
 {
-    if (JL_UART1->CON0 & BIT(0)) {
-        JL_UART1->BUF = a;
-        __asm__ volatile("csync");
-        while ((JL_UART1->CON0 & BIT(15)) == 0);
-        JL_UART1->CON0 |= BIT(13);
+    u32 i = 0x10000;
+    if (!(JL_UART1->CON0 & BIT(0))) {
+        return;
     }
-}
+    while (((JL_UART1->CON0 & BIT(15)) == 0) && (0 != i)) {  //TX IDLE
+        i--;
+    }
+    JL_UART1->CON0 |= BIT(13);  //清Tx pending
 
+    JL_UART1->BUF = a;
+    __asm__ volatile("csync");
+}
 void uart_init(const char *tx_io, u32 baud)
 {
     //PLL48M
@@ -32,6 +36,7 @@ void uart_init(const char *tx_io, u32 baud)
         gpio_output_channle(used_tx_io, CH1_UT1_TX);
         JL_UART1->BAUD = 48000000 / baud / 4 - 1;
         JL_UART1->CON0 = BIT(13) | BIT(12) | BIT(10) | BIT(0);
+        JL_UART1->BUF = ' ';
     }
 }
 

@@ -30,6 +30,8 @@ typedef unsigned int		uint32_t;
 
 #define BIT(n)                      (1 << n)
 
+#define ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
+
 #define FALSE    0
 #define TRUE    1
 #define false    0

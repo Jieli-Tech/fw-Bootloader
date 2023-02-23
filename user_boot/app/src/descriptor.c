@@ -17,8 +17,8 @@ static const u8 sDeviceDescriptor[] = { //<Device Descriptor
     0x00,       // bDeviceSubClass: none
     0x00,       // bDeviceProtocol: none
     EP0_SETUP_LEN,//EP0_LEN,      // bMaxPacketSize0: 8/64 bytes
-    'J', 'L',     // idVendor: 0x4a4c ASCII码
-    'U', 'A',     // idProduct: 0x4155 ASCII码
+    'J', 'L',     // idVendor: 0x4a4c - JL
+    'U', 'A',     // idProduct: chip id
     0x00, 0x01,     // bcdDevice: version 1.0
     0x01,       // iManufacturer: Index to string descriptor that contains the string <Your Name> in Unicode
     0x02,       // iProduct: Index to string descriptor that contains the string <Your Product Name> in Unicode

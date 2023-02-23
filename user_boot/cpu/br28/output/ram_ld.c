@@ -1,5 +1,29 @@
 // *INDENT-OFF*
 //
+/*
+#-------------------------------------------------------+
+#               br28 RAM mapping                        |
+#-------------------------------------------0x1A0000 ---|       
+#                                             (0x200)   |       INT_ADDR
+#-------------------------------------------0X19FE00----|---------------
+#              Maskrom_export_RAM             (0x200)   |       0X19FE00
+#-------------------------------------------0x19FC00 ---|
+#                                                       |
+#                                                       |
+#                                                       |
+#                                                       |
+#              (reserved)              (623K:0x9BC00)   |
+#                                                       |
+#                                                       |
+#                                                       |
+#                                                       |
+#-------------------------------------------0x104000 ---|
+#                                                       |
+#              *uboot                   (16K:0x4000)    |
+#                                                       |
+#-------------------------------------------0x100000 ---|
+*/
+
 #include  "maskrom_stubs.ld"
 
 #define SUPPORT_BP_DEBUG 0
@@ -23,7 +47,7 @@ ISR_BASE       = _IRQ_MEM_ADDR;
 
 MEMORY
 {
-	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 32K
+	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 16K
 #if SUPPORT_BP_DEBUG == 1
 	bp_ram(rwx) : ORIGIN = BP_BEG,  LENGTH = BP_SIZE
 #endif /* #if SUPPORT_BP_DEBUG == 1 */

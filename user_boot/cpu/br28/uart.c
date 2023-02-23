@@ -17,14 +17,18 @@ static u32 *used_tx_io_omap = NULL;
 __attribute__((always_inline_when_const_args))
 void putchar(char a)
 {
-    if (DEBUG_UART->CON0 & BIT(0)) {
-        DEBUG_UART->BUF = a;
-        __asm__ volatile("csync");
-        while ((DEBUG_UART->CON0 & BIT(15)) == 0);
-        DEBUG_UART->CON0 |= BIT(13);
+    u32 i = 0x10000;
+    if (!(DEBUG_UART->CON0 & BIT(0))) {
+        return;
     }
-}
+    while (((DEBUG_UART->CON0 & BIT(15)) == 0) && (0 != i)) {  //TX IDLE
+        i--;
+    }
+    DEBUG_UART->CON0 |= BIT(13);  //清Tx pending
 
+    DEBUG_UART->BUF = a;
+    __asm__ volatile("csync");
+}
 
 static void uart_set_baud(u32 baud)
 {
@@ -61,6 +65,7 @@ void uart_init(const char *tx_pin, u32 baud)
 
         DEBUG_UART->CON0 = BIT(13) | BIT(12) | BIT(10);
         uart_set_baud(baud);
+        DEBUG_UART->BUF = ' ';
     }
 }
 

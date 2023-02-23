@@ -183,7 +183,6 @@ LIBPATHS := \
 
 
 LIBS := \
-	C:/JL/pi32/lib/libm.a \
 	C:/JL/pi32/lib/libc.a \
 	C:/JL/pi32/lib/libm.a \
 	C:/JL/pi32/lib/libcompiler-rt.a \

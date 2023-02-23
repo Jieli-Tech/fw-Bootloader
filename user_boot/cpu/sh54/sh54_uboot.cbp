@@ -55,7 +55,6 @@
 <Add option="../../include_lib/liba/sh54/uboot.a" />
 <Add option="--no-whole-archive" />
 <Add option="--end-group" />
-<Add library="C:\JL\pi32\lib\libm.a" />
 </Linker>
 <ExtraCommands>
 <Add before="$compiler $options $includes -D__LD__ -E -P ..\..\cpu\sh54\output\ram_ld.c -o ..\..\cpu\sh54\output\ram.ld" />
