@@ -17,7 +17,7 @@ set ELFFILE=uboot.elf
 %OBJCOPY% -O binary -j .version %ELFFILE% uboot.version
 
 set run_addr=0x100000
-set load_addr=0x106000
+set load_addr=0x108000
 set mask_addr=0x0
 
 uboot_lz4.exe uboot.bin uboot.lz4 %run_addr% %load_addr% rom.image %mask_addr%

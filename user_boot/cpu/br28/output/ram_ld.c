@@ -47,7 +47,7 @@ ISR_BASE       = _IRQ_MEM_ADDR;
 
 MEMORY
 {
-	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 20K
+	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 32K
 #if SUPPORT_BP_DEBUG == 1
 	bp_ram(rwx) : ORIGIN = BP_BEG,  LENGTH = BP_SIZE
 #endif /* #if SUPPORT_BP_DEBUG == 1 */
