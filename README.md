@@ -15,7 +15,7 @@ JL 系列user boot固件程序
 工具链
 ------------
 
-使用的工具链与标准SDK一致。
+使用的工具链与标准SDK一致。如遇到《"错误: uboot.boot数据的CRC校验错误"错误:生成失败，无效的F文件，请重新选择系统找不到指定的文件。》这样的错误，需要更新最新的工具：https://doc.zh-jieli.com/Tools/zh-cn/other_info/index.html
 
 介绍文档
 ------------

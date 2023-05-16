@@ -4,7 +4,7 @@
 
 MEMORY
 {
-	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 18k
+	text_ram    :   ORIGIN = ENTRY_ADDR,  LENGTH = 32k
 	version_ram :   ORIGIN = 0x8000000,  LENGTH = 128
 }
 
