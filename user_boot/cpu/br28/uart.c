@@ -33,7 +33,7 @@ void putchar(char a)
 static void uart_set_baud(u32 baud)
 {
     JL_CLOCK->CLK_CON2 &= ~BIT(11);
-    JL_CLOCK->CLK_CON2 |= BIT(10);//osc clk
+    JL_CLOCK->CLK_CON2 &= ~BIT(10);//std12 clk
 
     DEBUG_UART->CON0 &= ~BIT(0);
     DEBUG_UART->CON0 |= BIT(13) | BIT(12) | BIT(10);

@@ -33,7 +33,7 @@
 <Add option="-Wno-integer-overflow" />
 <Add option="-g" />
 <Add option="-D__CPU_br28" />
-<Add option="-DENTRY_ADDR=0x100000" />
+<Add option="-DENTRY_ADDR=0x160000" />
 <Add option="-D__USE_MASK_API__" />
 <Add option="-D__MASK_LZ4" />
 <Add option="-D__USE_MASK_PRINTF" />

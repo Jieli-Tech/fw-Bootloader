@@ -53,35 +53,26 @@ int main(void)
     uboot_mask_init(putchar, exception_analyze);
 #endif
 
-#ifdef __DEBUG
     u8 val[16];
-    u8 pll_scr = 0;
     u8 *ptr = jlfs_get_isd_cfg_ptr();
     memset(val, 0, sizeof(val));
     dec_isd_cfg_ini("PLL_SRC", val, ptr);
     if (strcmp((char *)val, "LRC") == 0) {
-        pll_scr = 2;
+        sys_clk_init(0, 48000000);
+    } else {
+        sys_clk_init(24000000, 48000000);
     }
+
+#ifdef __DEBUG
     u32 ut_buad = 0;
     char uttx[8] = {0};
     memset(uttx, 0, sizeof(uttx));
     dec_isd_cfg_ini("UTTX", uttx, ptr);
     dec_isd_cfg_ini("UTBD", &ut_buad, ptr);
 
-    if (pll_scr == 2) {
-        sys_clk_init(0, 48000000);
-    } else {
-        sys_clk_init(24000000, 48000000);
-    }
     uart_init(uttx, ut_buad);
     /* uart_init("USBDP", 1000000); //debug串口 */
     /* printf("debug IO:%s,buad:%d\n",uttx,ut_buad); */
-
-#else
-
-    sys_clk_init(24000000, 48000000);
-    // uart_init("PB02", 1000000);
-
 #endif
 
     irq_init();
