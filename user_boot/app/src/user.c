@@ -13,6 +13,7 @@
 #define LOG_INFO_ENABLE
 #include "log.h"
 
+#define     DUAL_BANK_MODE 1
 /**********************************************************************************************************
 多字节数据：低字节在前，高字节在后，即小端格式(little endian)。
 CRC16 标准： CRC-CCITT (XModem)。
@@ -47,6 +48,7 @@ JLFS_FILE upgrade_file;
 /* #define JL_SU_CMD_EX_KEY        0xC5 */
 
 #define JL_SU_CMD_REBOOT        0xCA
+#define JL_SU_CMD_UPDATA_DUAL_BANK_CRC        0xCB
 
 #define JL_ERASE_TYPE_PAGE   1
 #define JL_ERASE_TYPE_SECTOR 2
@@ -72,6 +74,7 @@ typedef struct {
             u32 sdk_id;
         } device_check;
 
+
         struct {
             u32 address;		// 烧写FLASH地址
             u32 data_length;    //烧写长度
@@ -93,6 +96,12 @@ typedef struct {
             u8 file_name[16];
             u8 mode;
         }  init;
+
+        struct {
+            u16 crc;
+            u16 version;
+        } dual_bank_info;
+
     };
 } __attribute__((packed)) JL_SECTOR_COMMAND_ITEM;
 
@@ -274,7 +283,12 @@ void jl_su_device_init()
 {
     u16 crc16_len = 0;
     u16 crc16 = 0;
-    u8 err = jlfs_fopen_by_name(&upgrade_file, (const char *)g_ops->init.file_name, g_ops->init.mode);
+    u8 err;
+    if (g_ops->init.mode == 3) {
+        err = jlfs_get_idle_bank_info(&upgrade_file, g_ops->init.mode);
+    } else {
+        err = jlfs_fopen_by_name(&upgrade_file, (const char *)g_ops->init.file_name, g_ops->init.mode);
+    }
     if (err) {
         log_info("file open error !\n");
         memset(&dev_g_ops->init, 0, sizeof(dev_g_ops->init));
@@ -376,6 +390,17 @@ void jl_su_devcie_check()
     set_remain_and_upgrade_rsp(JL_SU_CMD_DEVICE_CHECK);
 }
 
+
+void jl_su_updata_dual_bank_crc()
+{
+    u16 crc = g_ops->dual_bank_info.crc;
+    u32 r = jlfs_updata_dual_bank_info(&upgrade_file, crc);
+
+    dev_g_ops->rsp_status = JL_SU_CMD_SUSS;
+    dev_g_ops->cmd_len = 1 + 1;
+
+    set_remain_and_upgrade_rsp(JL_SU_CMD_UPDATA_DUAL_BANK_CRC);
+}
 void upgrade_loop()
 {
     dev_g_ops = (JL_SECTOR_COMMAND_DEV_ITEM *)dev_g_buf;//回复buf 64大小是后面需要兼容usb
@@ -410,6 +435,11 @@ void upgrade_loop()
             log_info("JL_SU_CMD_DEVICE_CHECK\n");
             jl_su_devcie_check();
             break;
+
+        case JL_SU_CMD_UPDATA_DUAL_BANK_CRC:
+            jl_su_updata_dual_bank_crc();
+            break;
+
         case JL_SU_CMD_REBOOT:
             log_info("JL_SU_CMD_REBOOT\n");
             ut_devic_mode_close();
@@ -417,7 +447,9 @@ void upgrade_loop()
 #if(USE_UPGRADE_MAGIC)
             uboot_set_uart_upgrade_succ();
 #endif
-            /* chip_reset(); */ //可以复位，也可以直接跑去app
+#if DUAL_BANK_MODE
+            chip_reset();
+#endif
             return;
         }
         g_ops = NULL;
@@ -476,6 +508,7 @@ u8 user_check_upgrade(u32 jlfs_err)
         log_info("file open error !\n");
         return 1;
     }
+
     log_info("%s() 0x%x 0x%x\n", __func__, upgrade_file.addr, upgrade_file.size);
 
 #if (USB_MODE==1)

@@ -27,6 +27,16 @@ void jlfs_fseek(JLFS_FILE *file, u32 offset);
 void jlfs_get_pid_vid(u8 *pid, u8 *vid);
 
 void jlfs_get_bt_mac(u8 *mac);
+u32 jlfs_updata_dual_bank_info(JLFS_FILE *file, u16 data_crc);
+u32 jlfs_get_idle_bank_info(JLFS_FILE *file, u32 mode);
+/* --------------------------------------------------------------------------*/
+/**
+ * @brief 选择哪个code跑，必须在 jlfs_mount() 前调用才有效
+ *
+ * @param code_index 0:code0  1:code1  -1:自动切换（原模式） >1的数值会被强制为code0
+ */
+/* ----------------------------------------------------------------------------*/
+void jlfs_dual_bank_choose_code(u8 code_index);
 
 #endif
 
